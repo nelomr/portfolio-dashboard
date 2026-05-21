@@ -1,4 +1,4 @@
-# Dashboard Portfolio
+# Portfolio Dashboard
 
 A professional and modern dashboard built to showcase technical capabilities.
 

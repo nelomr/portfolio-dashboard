@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const title = ref('Dashboard Portfolio')
+const title = ref('Portfolio Dashboard')
 </script>
 
 <template>
