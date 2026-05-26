@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import PortfolioView from '@/views/Portfolio/PortfolioView.vue'
 
 const title = ref('Portfolio Dashboard')
 </script>
@@ -25,7 +24,7 @@ const title = ref('Portfolio Dashboard')
 
     <!-- Main Content -->
     <main class="flex-1 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 w-full">
-      <PortfolioView />
+      <RouterView />
     </main>
   </div>
 </template>
@@ -33,3 +32,4 @@ const title = ref('Portfolio Dashboard')
 <style>
 /* Global app overrides if needed */
 </style>
+
