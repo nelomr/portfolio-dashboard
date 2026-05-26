@@ -8,4 +8,9 @@ export default defineConfig({
     vue(),
     tailwindcss(),
   ],
+  test: {
+    environment: 'node',
+    include: ['src/**/*.{test,spec}.ts'],
+    globals: true,
+  },
 })
