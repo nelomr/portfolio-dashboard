@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.1.0](https://github.com/nelomr/portfolio-dashboard/compare/v1.0.0...v1.1.0) (2026-05-26)
+
+### ✨ Features
+
+* **portfolio:** implement state management and composables ([836d7c4](https://github.com/nelomr/portfolio-dashboard/commit/836d7c4375e084b7dc7d3ac75e47b22072af229f))
+
 ## 1.0.0 (2026-05-26)
 
 ### ✨ Features
