@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.agent/
+.agent/*
+.atl/
+.atl/*
+propuestas/
+
+# OpenSpec — only track live specs and config, not change history
+openspec/changes/archive/
