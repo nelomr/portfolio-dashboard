@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.3.0](https://github.com/nelomr/portfolio-dashboard/compare/v1.2.0...v1.3.0) (2026-05-26)
+
+### ✨ Features
+
+* **portfolio:** integrate interactive charts and refactor layout ([37d1102](https://github.com/nelomr/portfolio-dashboard/commit/37d11027d8cee5575b548573fbcd60bc0cc2be0e))
+
 ## [1.2.0](https://github.com/nelomr/portfolio-dashboard/compare/v1.1.0...v1.2.0) (2026-05-26)
 
 ### ✨ Features
