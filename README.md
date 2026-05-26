@@ -23,6 +23,13 @@ This project emphasizes a clean, performant, and scalable architecture.
 - **TailwindCSS 4** provides utility-first styling with modern UI considerations.
 - **Lightweight Charts** ensures high performance when rendering significant amounts of financial/analytical data.
 
+## 🤖 Agent Guidelines & UI Architecture
+
+This project utilizes an AI Agent Team approach via `.agent/skills` to strictly enforce architecture:
+- **UI Components (shadcn-vue)**: All base components MUST be generated via the CLI (`pnpm dlx shadcn-vue@latest add <component>`). Manual base components are strictly forbidden. The system utilizes `radix-vue` for accessibility and `class-variance-authority` (cva) for styling variants.
+- **State Management**: Asynchronous data must be fetched using `@pinia/colada` (`useQuery`/`useMutation`), while standard Pinia setup stores are reserved for synchronous UI state.
+- **Vue Core**: We strictly adhere to the Vue 3 Composition API (`<script setup>`) and prioritize reusable Composables over bloated component logic.
+
 ## 🚀 Getting Started
 
 1. **Install dependencies**:

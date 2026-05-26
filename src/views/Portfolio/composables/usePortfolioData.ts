@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { usePortfolioStore } from '@/stores/portfolioStore'
 
@@ -14,6 +14,13 @@ function stringToColor(str: string) {
 
 export function usePortfolioData() {
   const store = usePortfolioStore()
+  
+  // Auto-fetch data on mount if not already loaded
+  onMounted(() => {
+    if (!store.summary && !store.isLoading) {
+      store.fetchSummary()
+    }
+  })
   
   // Destructure reactive state from store
   const { summary, isLoading: isFetching, isRebuilding } = storeToRefs(store)

@@ -1,0 +1,32 @@
+/* Responsive Fixes for CryptoFiscal Project (Screens >= 1024px) */
+
+@reference "tailwindcss";
+
+/* Ensure large tables are scrollable on smaller "large" screens */
+.responsive-table-wrapper {
+  @apply w-full overflow-x-auto overflow-y-hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Standard container for main views */
+.view-container-fluid {
+  @apply max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8;
+}
+
+/* Standard card responsiveness */
+.responsive-card {
+  @apply w-full transition-all duration-300;
+}
+
+/* Custom scrollbar for horizontal tables */
+.responsive-table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.responsive-table-wrapper::-webkit-scrollbar-track {
+  @apply bg-slate-100 rounded-full;
+}
+
+.responsive-table-wrapper::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
+}
