@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.2.0](https://github.com/nelomr/portfolio-dashboard/compare/v1.1.0...v1.2.0) (2026-05-26)
+
+### ✨ Features
+
+* **portfolio:** implement core layout and shadcn-vue architecture ([6752ac7](https://github.com/nelomr/portfolio-dashboard/commit/6752ac77f2c90e58c60942a685f48d0bb29ae148))
+
 ## [1.1.0](https://github.com/nelomr/portfolio-dashboard/compare/v1.0.0...v1.1.0) (2026-05-26)
 
 ### ✨ Features
