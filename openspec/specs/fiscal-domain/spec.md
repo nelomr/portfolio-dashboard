@@ -1,5 +1,8 @@
-## ADDED Requirements
+# fiscal-domain Specification
 
+## Purpose
+TBD - created by archiving change hex-arch-zod-refactor. Update Purpose after archive.
+## Requirements
 ### Requirement: Define Tax and Fiscal Domain Models
 The system SHALL define strict TypeScript domain models for all fiscal capabilities inferred from the legacy system, protecting the UI from fragmented legacy properties.
 
@@ -26,3 +29,4 @@ The system SHALL implement complex Zod DTO schemas (`ExternalTaxTransactionSchem
 #### Scenario: Resolving Numeric Strings and Aliases
 - **WHEN** the legacy API sends metrics like `weighted_average_cost` or string values like `"0.50"`
 - **THEN** Zod MUST cast them to numbers and map them to their standard domain equivalents (e.g., `avg_price_eur`)
+

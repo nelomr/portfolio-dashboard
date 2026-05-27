@@ -1,5 +1,8 @@
-## ADDED Requirements
+# hexagonal-architecture Specification
 
+## Purpose
+TBD - created by archiving change hex-arch-zod-refactor. Update Purpose after archive.
+## Requirements
 ### Requirement: Define abstract repository ports
 The system SHALL define abstract interfaces for repositories (`ICryptoPortfolioRepository`) and HTTP clients (`IHttpClient`) inside the `domain` layer.
 
@@ -17,3 +20,4 @@ The system SHALL resolve which adapter implementation to use at runtime via a De
 #### Scenario: Development environment
 - **WHEN** the application starts with `VITE_USE_MOCK=true`
 - **THEN** the DI container provides `MockCryptoAdapter`
+

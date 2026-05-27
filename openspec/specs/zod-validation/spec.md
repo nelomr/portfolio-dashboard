@@ -1,5 +1,8 @@
-## ADDED Requirements
+# zod-validation Specification
 
+## Purpose
+TBD - created by archiving change hex-arch-zod-refactor. Update Purpose after archive.
+## Requirements
 ### Requirement: Validate external data with Zod
 The system SHALL validate all incoming external data using Zod schemas before it enters the application's domain layer.
 
@@ -28,3 +31,4 @@ The system SHALL use Zod Branded Types to create nominal typing for domain ident
 #### Scenario: Assigning incorrect ID type
 - **WHEN** a developer passes a `TransactionId` to a function expecting an `AssetId`
 - **THEN** the TypeScript compiler throws a type error
+
