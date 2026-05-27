@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.3.2](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.1...v1.3.2) (2026-05-27)
+
+### 📝 Documentation
+
+* **openspec:** sync pinia-colada specs and archive change ([39234a8](https://github.com/nelomr/portfolio-dashboard/commit/39234a80d200c5653ab77f8d05fda11bf1c1471a))
+
 ## [1.3.1](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.0...v1.3.1) (2026-05-27)
 
 ### ♻️  Refactors
