@@ -115,6 +115,27 @@ src/
 
 ## 🚀 Getting Started
 
+### Environment Configuration
+
+Before running the project, you must configure your environment variables. 
+Copy the provided example files to create your local environments:
+
+```bash
+# For development
+cp .env.example .env
+
+# For production
+cp .env.production.example .env.production
+```
+
+**Key Variables:**
+- `VITE_USE_MOCK`: Set to `true` to use the local mock adapters (useful if you don't have the Python backend running locally). Set to `false` to use the real REST API adapters.
+- `VITE_API_BASE_URL`: The URL of the Python backend (e.g., `http://localhost:8000`).
+
+---
+
+### Installation & Running
+
 1. **Install dependencies**:
 
    ```bash
