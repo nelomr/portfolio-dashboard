@@ -1,0 +1,143 @@
+/**
+ * RestTaxAdapter — Production HTTP adapter for fiscal/tax data.
+ *
+ * Implements ITaxRepository using a real HTTP client. All incoming API
+ * responses pass through Zod schemas (ExternalTaxTransactionSchema,
+ * ExternalTaxReportSchema) before entering the domain. safeParse failures
+ * emit to errorBus and throw a controlled DomainValidationError.
+ *
+ * The complex BUY/SELL/SWAP symbol resolution logic lives exclusively in
+ * ExternalTaxTransactionSchema — this adapter simply delegates to it.
+ *
+ * @see openspec/changes/hex-arch-zod-refactor/specs/fiscal-domain/spec.md
+ */
+
+import type { ITaxRepository } from '@/core/domain/repositories/ITaxRepository'
+import type { IHttpClient } from '@/core/domain/repositories/IHttpClient'
+import type { TaxTransactionEntity, TaxReportEntity } from '@/core/domain/models/FiscalEntities'
+import {
+  ExternalTaxTransactionSchema,
+  ExternalTaxReportSchema,
+} from '@/core/infrastructure/dtos/ExternalTaxSchemas'
+import { TransactionIdSchema } from '@/core/domain/models/BrandedTypes'
+import { errorBus } from '@/core/infrastructure/errors/errorBus'
+import { DomainValidationError } from './RestCryptoAdapter'
+import { z } from 'zod'
+
+// ---------------------------------------------------------------------------
+// Helper — parse with safeParse, emit to bus on failure
+// ---------------------------------------------------------------------------
+
+function parseOrFail<T>(
+  schema: { safeParse: (data: unknown) => { success: boolean; data?: T; error?: unknown } },
+  rawData: unknown,
+  context: string,
+): T {
+  const result = schema.safeParse(rawData)
+  if (!result.success) {
+    const message = `Tax API returned malformed data in ${context}. Data may be incomplete.`
+    console.error(`[RestTaxAdapter] ${message}`, result.error)
+    errorBus.emit('validation-error', { message, context, details: result.error })
+    throw new DomainValidationError(context, result.error)
+  }
+  return result.data!
+}
+
+// ---------------------------------------------------------------------------
+// Adapter
+// ---------------------------------------------------------------------------
+
+export class RestTaxAdapter implements ITaxRepository {
+  private readonly http: IHttpClient
+
+  constructor(http: IHttpClient) {
+    this.http = http
+  }
+
+  async getTransactions(): Promise<TaxTransactionEntity[]> {
+    const response = await this.http.get<unknown[]>('/api/tax/transactions')
+    const rawArray = Array.isArray(response.data) ? response.data : []
+
+    // Parse each transaction individually — failures are logged but don't crash the batch
+    const parsed: TaxTransactionEntity[] = []
+    for (const rawTx of rawArray) {
+      const result = ExternalTaxTransactionSchema.safeParse(rawTx)
+      if (result.success) {
+        const dto = result.data
+        parsed.push({
+          id: TransactionIdSchema.parse(dto.id),
+          type: dto.type,
+          symbol: dto.symbol,
+          amount: dto.amount,
+          totalEur: dto.totalEur,
+          priceEur: dto.priceEur,
+          feeEur: dto.feeEur,
+          timestamp: dto.timestamp,
+          assetIn: dto.assetIn,
+          assetOut: dto.assetOut,
+          amountIn: dto.amountIn,
+          amountOut: dto.amountOut,
+          exchange: dto.exchange,
+          refId: dto.refId,
+        })
+      } else {
+        // Single-row failure: log and emit but continue processing the rest
+        console.warn('[RestTaxAdapter] Skipping invalid transaction:', result.error, rawTx)
+        errorBus.emit('validation-error', {
+          message: `A transaction record was skipped due to malformed data.`,
+          context: 'getTransactions/row',
+          details: result.error,
+        })
+      }
+    }
+    return parsed
+  }
+
+  async getInvalidTransactions(): Promise<TaxTransactionEntity[]> {
+    const response = await this.http.get<unknown[]>('/api/tax/transactions/invalid')
+    const rawArray = Array.isArray(response.data) ? response.data : []
+    const parsed: TaxTransactionEntity[] = []
+
+    for (const rawTx of rawArray) {
+      const result = ExternalTaxTransactionSchema.safeParse(rawTx)
+      if (result.success) {
+        const dto = result.data
+        parsed.push({
+          id: TransactionIdSchema.parse(dto.id),
+          type: dto.type,
+          symbol: dto.symbol,
+          amount: dto.amount,
+          totalEur: dto.totalEur,
+          priceEur: dto.priceEur,
+          feeEur: dto.feeEur,
+          timestamp: dto.timestamp,
+        })
+      }
+    }
+    return parsed
+  }
+
+  async getReport(year: number, method: string): Promise<TaxReportEntity> {
+    const response = await this.http.get<unknown>(`/api/tax/report?year=${year}&method=${method}`)
+    const dto = parseOrFail(ExternalTaxReportSchema, response.data, `getReport(${year})`)
+
+    return {
+      year: dto.year,
+      method: dto.method,
+      summary: dto.summary,
+      auditTrail: dto.auditTrail as TaxReportEntity['auditTrail'],
+    }
+  }
+
+  async deleteTransaction(id: string): Promise<void> {
+    await this.http.delete(`/api/tax/transactions/${id}`)
+  }
+
+  async updateTransaction(id: string, data: Partial<TaxTransactionEntity>): Promise<void> {
+    await this.http.put(`/api/tax/transactions/${id}`, data)
+  }
+
+  async validateTransaction(payload: Partial<TaxTransactionEntity>): Promise<void> {
+    await this.http.post('/api/tax/transactions/validate', payload)
+  }
+}

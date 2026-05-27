@@ -15,13 +15,60 @@ A professional and modern crypto portfolio dashboard.
 - **Testing**: Vitest
 - **Package Manager**: pnpm
 
-## 📦 Architecture
+## 📦 Architecture: Hexagonal (Ports & Adapters)
 
-This project emphasizes a clean, performant, and scalable architecture.
+This project strictly adheres to **Clean Architecture** (specifically the **Hexagonal / Ports and Adapters** pattern) to ensure the UI is completely decoupled from data fetching, API contracts, and external dependencies. This enables high testability, seamless swapping of data sources (e.g., Mock vs Real API), and protects our core domain logic.
 
-- **Pinia Colada** handles asynchronous state fetching efficiently, reducing manual `isLoading` or boilerplate.
-- **TailwindCSS 4** provides utility-first styling with modern UI considerations.
-- **Lightweight Charts** ensures high performance when rendering significant amounts of financial/analytical data.
+```mermaid
+graph TD
+    subgraph UI ["Application & UI Layer (Vue / Pinia Colada)"]
+        V[PortfolioView.vue] --> |Consumes| PD[usePortfolioData.ts]
+        PD --> |Invokes| PQ[usePortfolioQueries.ts]
+        PQ --> |Injects Port| PORT
+    end
+
+    subgraph Domain ["Domain Layer (Framework Agnostic)"]
+        PORT(("ICryptoPortfolioRepository\n(Port)"))
+        ENT["Entities & Zod Schemas\n(PortfolioSummaryEntity)"]
+        PORT -.-> |Returns| ENT
+    end
+
+    subgraph Infra ["Infrastructure Layer (Adapters)"]
+        RCA["RestCryptoAdapter\n(Fetch API)"] --> |Implements| PORT
+        MCA["MockCryptoAdapter\n(Local Mock)"] --> |Implements| PORT
+        DI["DI Container\n(injectionKeys.ts)"] -.-> |Provides Active Adapter| RCA
+        DI -.-> |Provides Active Adapter| MCA
+    end
+    
+    style Domain fill:#1e1e24,stroke:#3b82f6,stroke-width:2px,color:#fff
+    style PORT fill:#2563eb,stroke:#fff,color:#fff
+    style UI fill:#18181b,stroke:#10b981,stroke-width:2px,color:#fff
+    style Infra fill:#18181b,stroke:#f59e0b,stroke-width:2px,color:#fff
+```
+
+### 🏛️ Architectural Layers
+
+1. **Domain Layer (`src/core/domain/`)**
+   The heart of the application. It has zero external framework dependencies (not even Vue or Axios).
+   - **Entities & Value Objects (`models/`)**: Defined using TypeScript and `zod` for strict runtime validation and type safety (e.g., `PortfolioSummaryEntity`).
+   - **Ports (`repositories/`)**: Interfaces that define the contract for data operations (e.g., `ICryptoPortfolioRepository`). The Domain dictates *what* it needs, not *how* to get it.
+
+2. **Infrastructure Layer (`src/core/infrastructure/`)**
+   The outer edge that communicates with the real world.
+   - **Adapters (`adapters/`)**: Concrete implementations of the Domain Ports. For example, `RestCryptoAdapter` connects to the real Python API, while `MockCryptoAdapter` provides offline mock data for local development.
+   - **Dependency Injection (`di/`)**: The "Composition Root". It evaluates environment variables (`VITE_USE_MOCK`) and instantiates the correct adapter, providing it globally to the application via Vue's injection mechanism (`PORTFOLIO_REPO_KEY`).
+
+3. **Application & Presentation Layer (`src/composables/queries/` & `src/views/`)**
+   - **Asynchronous Queries (`src/composables/queries/`)**: We use `@pinia/colada` (`useQuery`/`useMutation`) to declaratively manage asynchronous data fetching, caching, and invalidation. These composables (e.g., `usePortfolioQueries.ts`) consume the injected Repositories and expose pure reactive states (`isFetching`, `data`, `error`). Traditional Pinia stores are strictly reserved for synchronous global UI state; we do not build manual async state machines.
+   - **UI Orchestrators & Components**: Views read directly from the query composables or orchestrator composables. They never make direct HTTP calls or track manual loading flags.
+
+### 🛡️ API Consumption & Zod Validation
+
+The dashboard connects to an external Python backend. To prevent the UI from crashing or behaving unpredictably due to API contract changes, we employ a strict **anti-corruption layer**:
+
+1. **Data Fetching**: The `RestCryptoAdapter` (Infrastructure) makes native `fetch` requests to the API endpoints (e.g., `/api/v1/portfolio/summary`).
+2. **Runtime Validation**: Instead of blindly casting the JSON response using TypeScript's `as Type` (which only exists at compile-time), the raw response is passed through **Zod schemas** (e.g., `PortfolioSummarySchema.parse(response)`).
+3. **Graceful Failures**: If the backend returns malformed data or a missing field, Zod immediately intercepts it. The adapter catches the `ZodError`, emits a detailed log to the internal `errorBus`, and protects the application from catastrophic runtime crashes.
 
 ## 🤖 Agent Guidelines & UI Architecture
 
@@ -44,6 +91,8 @@ To maintain clean and scalable code, we follow a strict separation of concerns f
 ```text
 src/
 ├── composables/
+│   ├── queries/                   # Pinia Colada async data fetching
+│   │   └── usePortfolioQueries.ts
 │   ├── useFormatters.ts           # Formatters for UI data
 │   └── usePortfolioMetrics.ts     # Presentation logic (pnlValue, roiPercentage, isBullish)
 │
@@ -59,7 +108,8 @@ src/
 │
 └── views/Portfolio/
     ├── composables/
-    │   └── usePortfolioData.ts    # Fetching/state layer only
+    │   ├── useChartData.ts        # Chart formatting & synthetic performance data
+    │   └── usePortfolioData.ts    # Pinia Colada query orchestration
     └── PortfolioView.vue          # Pure orchestrator, assembles above pieces
 ```
 

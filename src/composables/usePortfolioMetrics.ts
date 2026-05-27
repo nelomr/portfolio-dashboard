@@ -1,19 +1,19 @@
 import { computed } from 'vue'
 import type { Ref } from 'vue'
-import type { PortfolioMetrics } from '@/types/portfolio'
+import type { PortfolioMetricsEntity } from '@/core/domain/models/PortfolioEntities'
 
 /**
  * Derives presentation-level metrics from raw portfolio data.
  * Keeps PortfolioView free of computed-logic clutter.
  */
-export function usePortfolioMetrics(metrics: Ref<PortfolioMetrics | null>) {
-  const pnlValue = computed(() => metrics.value?.total_unrealized_pnl_eur ?? 0)
+export function usePortfolioMetrics(metrics: Ref<PortfolioMetricsEntity | null>) {
+  const pnlValue = computed(() => metrics.value?.totalUnrealizedPnlEur ?? 0)
 
-  const realizedPnlValue = computed(() => metrics.value?.total_realized_pnl_eur ?? 0)
+  const realizedPnlValue = computed(() => metrics.value?.totalRealizedPnlEur ?? 0)
 
   const roiPercentage = computed(() => {
-    if (!metrics.value || metrics.value.total_equity_eur === 0) return 0
-    const costBasis = metrics.value.total_equity_eur - pnlValue.value
+    if (!metrics.value || metrics.value.totalEquityEur === 0) return 0
+    const costBasis = metrics.value.totalEquityEur - pnlValue.value
     if (costBasis <= 0) return 0
     return (pnlValue.value / costBasis) * 100
   })

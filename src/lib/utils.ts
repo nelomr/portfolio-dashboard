@@ -43,3 +43,16 @@ export function isZero(val: string | number | null | undefined): boolean {
 export function formatAmount(val: string | number | null | undefined): string {
   return safeAmountToNumber(val).toFixed(5);
 }
+
+/**
+ * Generates a consistent hex color string from a given text (e.g., asset symbol).
+ * Useful for deterministic UI coloring in charts and avatars.
+ */
+export function stringToColor(str: string): string {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  const color = Math.floor(Math.abs((Math.sin(hash) * 10000) % 1 * 16777215)).toString(16)
+  return '#' + '000000'.substring(0, 6 - color.length) + color
+}

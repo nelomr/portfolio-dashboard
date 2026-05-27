@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { usePortfolioData } from './composables/usePortfolioData'
+import { useChartData } from './composables/useChartData'
 import { usePortfolioMetrics } from '@/composables/usePortfolioMetrics'
 import { formatCurrency } from '@/composables/useFormatters'
 
@@ -7,17 +8,21 @@ import PortfolioHeader from '@/components/portfolio/PortfolioHeader.vue'
 import MetricsRow from '@/components/portfolio/MetricsRow.vue'
 import ChartsRow from '@/components/portfolio/ChartsRow.vue'
 
+// 1. Data Fetching & State
 const {
   metrics,
   isFetching,
   isRebuilding,
   handleRebuild,
-  allocationData,
-  performanceData,
+  filteredHoldings,
 } = usePortfolioData()
 
+// 2. Formatting & Calculations
 const { pnlValue, roiFormatted, isBullish, realizedIsPositive, realizedPnlValue } =
   usePortfolioMetrics(metrics)
+
+// 3. UI Chart Data Transformation
+const { allocationData, performanceData } = useChartData(metrics, filteredHoldings)
 </script>
 
 <template>
@@ -39,7 +44,7 @@ const { pnlValue, roiFormatted, isBullish, realizedIsPositive, realizedPnlValue 
 
       <!-- 2. Metrics row below charts -->
       <MetricsRow
-        :totalEquity="formatCurrency(metrics?.total_equity_eur)"
+        :totalEquity="formatCurrency(metrics?.totalEquityEur)"
         :unrealizedPnl="formatCurrency(pnlValue)"
         :realizedPnl="formatCurrency(realizedPnlValue)"
         :roiFormatted="roiFormatted"

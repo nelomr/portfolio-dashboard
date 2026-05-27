@@ -1,0 +1,52 @@
+import type { App } from 'vue'
+import { inject } from 'vue'
+import type { Pinia } from 'pinia'
+
+// --- Hexagonal Architecture: Dependency Injection Setup ---
+import { PORTFOLIO_REPO_KEY, TAX_REPO_KEY } from '@/core/injectionKeys'
+import { MockCryptoAdapter } from '@/core/infrastructure/adapters/MockCryptoAdapter'
+import { MockTaxAdapter } from '@/core/infrastructure/adapters/MockTaxAdapter'
+import { RestCryptoAdapter } from '@/core/infrastructure/adapters/RestCryptoAdapter'
+import { RestTaxAdapter } from '@/core/infrastructure/adapters/RestTaxAdapter'
+import { AxiosHttpClient } from '@/core/infrastructure/http/AxiosHttpClient'
+
+/**
+ * setupDependencyInjection
+ * 
+ * Configures the Application's Composition Root. 
+ * Reads the environment to determine if the application should run in Mock mode
+ * or Production (REST) mode, instantiates the correct adapters, and wires them
+ * into Vue (via provide/inject) and Pinia (via a store plugin).
+ */
+export function setupDependencyInjection(app: App, pinia: Pinia) {
+  const useMock = import.meta.env.VITE_USE_MOCK === 'true'
+  
+  if (import.meta.env.DEV) {
+    console.log('[DI] VITE_USE_MOCK:', import.meta.env.VITE_USE_MOCK, '-> using mocks:', useMock)
+  }
+
+  // 1. Instantiate infrastructure
+  const httpClient = new AxiosHttpClient()
+
+  const portfolioRepo = useMock
+    ? new MockCryptoAdapter()
+    : new RestCryptoAdapter(httpClient)
+
+  const taxRepo = useMock
+    ? new MockTaxAdapter()
+    : new RestTaxAdapter(httpClient)
+
+  // 2. Provide repositories globally to Vue components via Symbol keys
+  app.provide(PORTFOLIO_REPO_KEY, portfolioRepo)
+  app.provide(TAX_REPO_KEY, taxRepo)
+
+  // 3. Inject repositories directly into Pinia stores
+  // This solves the "[Vue warn]: inject() can only be used inside setup()" 
+  // when stores need to fetch dependencies asynchronously.
+  pinia.use(({ app: piniaApp }) => {
+    return {
+      $portfolioRepo: piniaApp.runWithContext(() => inject(PORTFOLIO_REPO_KEY)),
+      $taxRepo: piniaApp.runWithContext(() => inject(TAX_REPO_KEY))
+    }
+  })
+}

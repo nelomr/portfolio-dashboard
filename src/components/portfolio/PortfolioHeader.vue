@@ -41,7 +41,7 @@ const emit = defineEmits<{
       class="inline-flex items-center gap-2 h-9 px-4 rounded-md border border-border/40 text-[10px] font-black uppercase tracking-widest hover:bg-primary/10 hover:text-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
     >
       <RefreshCw class="w-3.5 h-3.5" :class="{ 'animate-spin': isRebuilding }" />
-      {{ isRebuilding ? 'Sincronizando...' : 'Reconstruir Índice' }}
+      {{ isRebuilding ? 'Sincronizando...' : 'Sincronizar Portfolio' }}
     </button>
   </header>
 </template>

@@ -32,9 +32,9 @@ vi.mock('@/components/charts/AssetAllocationChart.vue', () => ({
 
 // ── Fixtures ──────────────────────────────────────────────────────────────────
 const mockMetrics = {
-  total_equity_eur: 10000,
-  total_unrealized_pnl_eur: 500,
-  total_realized_pnl_eur: 100,
+  totalEquityEur: 10000,
+  totalUnrealizedPnlEur: 500,
+  totalRealizedPnlEur: 100,
 }
 
 const mockAllocation = [
@@ -47,17 +47,26 @@ const mockPerformance = [
   { time: '2025-01-07', value: 10000 },
 ]
 
-function mountView(overrides: Partial<ReturnType<typeof portfolioData.usePortfolioData>> = {}) {
+import * as chartData from '@/views/Portfolio/composables/useChartData'
+
+function mountView(
+  dataOverrides: Partial<ReturnType<typeof portfolioData.usePortfolioData>> = {},
+  chartOverrides: Partial<ReturnType<typeof chartData.useChartData>> = {}
+) {
   vi.spyOn(portfolioData, 'usePortfolioData').mockReturnValue({
     metrics: ref(mockMetrics),
     isFetching: ref(false),
     isRebuilding: ref(false),
     handleRebuild: vi.fn(),
-    allocationData: ref(mockAllocation),
-    performanceData: ref(mockPerformance),
     store: {} as any,
     filteredHoldings: ref([]),
-    ...overrides,
+    ...dataOverrides,
+  } as any)
+
+  vi.spyOn(chartData, 'useChartData').mockReturnValue({
+    allocationData: ref(mockAllocation),
+    performanceData: ref(mockPerformance),
+    ...chartOverrides,
   } as any)
 
   return mount(PortfolioView, {
@@ -122,7 +131,7 @@ describe('PortfolioView', () => {
   })
 
   it('hides charts when data arrays are empty', () => {
-    const wrapper = mountView({
+    const wrapper = mountView({}, {
       allocationData: ref([]),
       performanceData: ref([]),
     })
