@@ -1,10 +1,10 @@
-# Portfolio Dashboard
+# 📊 Portfolio Dashboard
+
+> A Crypto & Fiscal Portfolio Dashboard built with Vue 3, Clean Architecture, and strict runtime validation. Designed for high performance, accuracy, and fiscal compliance.
 
 [![Release](https://img.shields.io/github/v/release/nelomr/portfolio-dashboard?style=flat-square&logo=github&label=version)](https://github.com/nelomr/portfolio-dashboard/releases/latest)
 [![CI](https://img.shields.io/github/actions/workflow/status/nelomr/portfolio-dashboard/ci.yml?branch=main&style=flat-square&logo=github-actions&label=CI)](https://github.com/nelomr/portfolio-dashboard/actions/workflows/ci.yml)
 [![Changelog](https://img.shields.io/badge/changelog-CHANGELOG.md-blue?style=flat-square)](./CHANGELOG.md)
-
-A professional and modern crypto portfolio dashboard.
 
 ## 🛠️ Stack
 
