@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.3.3](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.2...v1.3.3) (2026-05-27)
+
+### 📝 Documentation
+
+* **openspec:** remove deprecated portfolio-state-management spec ([2d0bb22](https://github.com/nelomr/portfolio-dashboard/commit/2d0bb22f634505874361660c48b36fcabe265fa9))
+
 ## [1.3.2](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.1...v1.3.2) (2026-05-27)
 
 ### 📝 Documentation
