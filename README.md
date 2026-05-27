@@ -134,31 +134,33 @@ cp .env.production.example .env.production
 
 ---
 
-### Installation & Running
+### 💻 Local Development
 
-1. **Install dependencies**:
+This project uses [pnpm](https://pnpm.io/) as the package manager. Ensure you have it installed before proceeding.
 
-   ```bash
-   pnpm install
-   ```
+```bash
+# 1. Clone the repository
+git clone https://github.com/nelomr/portfolio-dashboard.git
+cd portfolio-dashboard
 
-2. **Start the development server**:
+# 2. Install dependencies
+pnpm install
 
-   ```bash
-   pnpm dev
-   ```
+# 3. Start the development server (with HMR)
+pnpm dev
+```
 
-3. **Run tests**:
+### 🧪 Testing & Validation
 
-   ```bash
-   pnpm test
-   ```
+We enforce strict quality gates (Clean Architecture & TDD). Run these commands to validate your changes locally before submitting a PR:
 
-4. **Type check**:
-
-   ```bash
-   pnpm typecheck
-   ```
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Starts the local development server. |
+| `pnpm test` | Runs the complete **Vitest** unit testing suite (Adapters, UI, and Domain). |
+| `pnpm test:ui` | Opens the Vitest UI dashboard for interactive test debugging. |
+| `pnpm typecheck` | Runs **Vue-TSC** to statically validate types across all components without emitting output. |
+| `pnpm build` | Compiles and bundles the application for production deployment. |
 
 ## 🔖 Versioning
 
