@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.3.5](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.4...v1.3.5) (2026-05-27)
+
+### 📝 Documentation
+
+* **readme:** update project description ([4f535c0](https://github.com/nelomr/portfolio-dashboard/commit/4f535c0073f057b9ba480e652fae47286fc44a03))
+
 ## [1.3.4](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.3...v1.3.4) (2026-05-27)
 
 ### 📝 Documentation
