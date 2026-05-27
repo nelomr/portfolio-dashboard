@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.3.4](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.3...v1.3.4) (2026-05-27)
+
+### 📝 Documentation
+
+* **openspec:** archive hex-arch-zod-refactor and sync all delta specs ([e1a3f94](https://github.com/nelomr/portfolio-dashboard/commit/e1a3f945346184d50a8c1d443955a2d959bf2dde))
+
 ## [1.3.3](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.2...v1.3.3) (2026-05-27)
 
 ### 📝 Documentation
