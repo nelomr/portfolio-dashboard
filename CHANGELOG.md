@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.3.1](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.0...v1.3.1) (2026-05-27)
+
+### ♻️  Refactors
+
+* **portfolio:** implement clean architecture with zod and migrate to pinia colada ([47422b0](https://github.com/nelomr/portfolio-dashboard/commit/47422b0031560de0bb5491a5549a06727ea85fff))
+
 ## [1.3.0](https://github.com/nelomr/portfolio-dashboard/compare/v1.2.0...v1.3.0) (2026-05-26)
 
 ### ✨ Features
