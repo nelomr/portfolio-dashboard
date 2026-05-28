@@ -3,6 +3,12 @@
 All notable changes to **Kriptofolio** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.6.0](https://github.com/nelomr/kryptofolio/compare/v1.5.0...v1.6.0) (2026-05-28)
+
+### ✨ Features
+
+* **i18n:** implement environment-based translated strings functionality ([e21359a](https://github.com/nelomr/kryptofolio/commit/e21359ab2f85a21b42d4b8fd5576b08293f36575))
+
 ## [1.5.0](https://github.com/nelomr/kryptofolio/compare/v1.4.1...v1.5.0) (2026-05-28)
 
 ### ✨ Features
