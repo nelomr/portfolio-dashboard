@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.4.1](https://github.com/nelomr/portfolio-dashboard/compare/v1.4.0...v1.4.1) (2026-05-28)
+
+### 📝 Documentation
+
+* implement DESIGN.md and configure AI agent UI skill ([17be785](https://github.com/nelomr/portfolio-dashboard/commit/17be785fad7d4bf54ae368e1251f921284c42050))
+
 ## [1.4.0](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.6...v1.4.0) (2026-05-28)
 
 ### ✨ Features
