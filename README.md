@@ -41,6 +41,25 @@ cp .env.production.example .env.production
 **Key Variables:**
 - `VITE_USE_MOCK`: Set to `true` to use the local mock adapters. Set to `false` to use the real REST API adapters connecting to the backend.
 - `VITE_API_BASE_URL`: The URL of the backend (e.g., `http://localhost:8000`).
+- `VITE_APP_LANG`: The language for the interface. Valid options are currently `es` or `en`.
+
+### 🌍 Internationalization (i18n)
+
+Kryptofolio uses a zero-dependency, environment-based translation system.
+
+**To choose a language:**
+Set `VITE_APP_LANG=en` (English) or `VITE_APP_LANG=es` (Spanish) in your `.env` file and restart the development server. If the variable is missing or invalid, it defaults to English.
+
+**To add a new language (e.g., French `fr`):**
+1. Create a new file `src/i18n/dictionaries/fr.ts`.
+2. Copy the structure from `en.ts` and translate the values. Ensure the object satisfies the `I18nDictionary` interface.
+3. Open `src/core/infrastructure/i18n/EnvI18nAdapter.ts`.
+4. Import the new dictionary: `import { fr } from '@/i18n/dictionaries/fr'`
+5. Add it to the `dictionaries` map inside the adapter:
+   ```typescript
+   const dictionaries: Record<string, I18nDictionary> = { en, es, fr }
+   ```
+6. Set `VITE_APP_LANG=fr` in your `.env` file.
 
 ### Local Development
 

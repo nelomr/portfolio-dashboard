@@ -22,7 +22,7 @@ const props = defineProps({
   }
 })
 
-// Tipamos CryptoIcons en caso de que index.js no exporte los tipos explícitamente
+// Type CryptoIcons explicitly in case index.js doesn't export them correctly
 const icons = CryptoIcons as Record<string, string>
 
 const iconSymbolUrl = computed(() => {

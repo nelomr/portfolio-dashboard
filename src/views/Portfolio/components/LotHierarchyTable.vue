@@ -41,7 +41,7 @@
               colspan="7"
               class="h-64 text-center text-muted-foreground uppercase tracking-widest text-[10px] font-black"
             >
-              No se han encontrado activos en la cartera.
+              {{ t('portfolio.no_assets') }}
             </TableCell>
           </TableRow>
         </template>
@@ -138,6 +138,7 @@ import TableSkeleton from "./table/TableSkeleton.vue";
 import ExpandedLotsTable from "./table/ExpandedLotsTable.vue";
 import { createColumns } from "./table/columns";
 import type { HoldingEntity } from "@/core/domain/models/PortfolioEntities";
+import { useI18n } from '@/composables/useI18n';
 
 const props = defineProps<{
   data: HoldingEntity[];
@@ -150,7 +151,9 @@ const emit = defineEmits(['expandRow']);
 
 const expanded = ref({});
 
-const columns = createColumns(props.onExpand || (() => {}), props.isLoading);
+const { t } = useI18n();
+
+const columns = createColumns(props.onExpand || (() => {}), props.isLoading, t);
 
 const table = useVueTable({
   get data() {

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import MetricCard from '@/components/portfolio/MetricCard.vue'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 defineProps<{
   totalEquity: string
@@ -14,7 +17,7 @@ defineProps<{
 <template>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 shrink-0">
     <!-- Total Net Equity -->
-    <MetricCard label="Patrimonio Neto Total" glowColor="via-primary/20">
+    <MetricCard :label="t('metrics.net_equity')" glowColor="via-primary/20">
       <div class="flex items-baseline gap-2">
         <p class="text-3xl lg:text-4xl font-mono font-black tracking-tighter tabular-nums group-hover:scale-[1.02] transition-transform origin-left">
           {{ totalEquity }}
@@ -23,7 +26,7 @@ defineProps<{
     </MetricCard>
 
     <!-- Unrealized P&L -->
-    <MetricCard label="PyG No Realizado" glowColor="via-profit/20">
+    <MetricCard :label="t('metrics.unrealized_pnl')" glowColor="via-profit/20">
       <div class="flex flex-col">
         <p
           class="text-3xl lg:text-4xl font-mono font-black tracking-tighter tabular-nums transition-all group-hover:translate-x-1"
@@ -38,7 +41,7 @@ defineProps<{
     </MetricCard>
 
     <!-- Realized P&L -->
-    <MetricCard label="PyG Realizado (Imponible)" glowColor="via-primary/20">
+    <MetricCard :label="t('metrics.realized_pnl')" glowColor="via-primary/20">
       <p
         class="text-3xl lg:text-4xl font-mono font-black tracking-tighter tabular-nums transition-all group-hover:translate-x-1"
         :class="realizedIsPositive ? 'text-profit' : 'text-loss'"

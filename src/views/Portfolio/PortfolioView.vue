@@ -67,7 +67,7 @@ const { allocationData, performanceData } = useChartData(
         :allocationData="allocationData"
       />
 
-      <!-- 2. Metrics row below charts -->
+      <!-- Metrics row below charts -->
       <MetricsRowSkeleton v-if="isFetching" />
       <MetricsRow
         v-else
@@ -79,7 +79,7 @@ const { allocationData, performanceData } = useChartData(
         :realizedIsPositive="realizedIsPositive"
       />
 
-      <!-- 3. Holdings Table -->
+      <!-- Holdings Table -->
       <LotHierarchyTable
         :data="filteredHoldings as any"
         :isLoading="isFetching"
@@ -89,7 +89,7 @@ const { allocationData, performanceData } = useChartData(
       />
     </div>
 
-    <!-- 4. Token Details Modal -->
+    <!-- Token Details Modal -->
     <TokenDetailsModal
       :isOpen="isModalOpen"
       :symbol="selectedSymbol"

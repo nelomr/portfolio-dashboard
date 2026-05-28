@@ -1,7 +1,7 @@
 <template>
   <div class="p-6 border-l-2 border-primary ml-10">
     <div class="flex items-center gap-2 mb-4">
-      <h4 class="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Lotes Fiscales FIFO (Abiertos)</h4>
+      <h4 class="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">{{ t('expanded_lots.title') }}</h4>
       <RefreshCw v-if="isLoadingDetails" class="w-3 h-3 animate-spin text-muted-foreground" />
     </div>
     
@@ -9,13 +9,13 @@
        <TableHeader>
           <TableRow class="hover:bg-transparent">
              <TableHead class="h-8 text-[9px] w-8"></TableHead>
-             <TableHead class="h-8 text-[9px]">Fecha</TableHead>
-             <TableHead class="h-8 text-[9px]">Tipo / Estado</TableHead>
-             <TableHead class="h-8 text-[9px] text-right">Cant. Orig</TableHead>
-             <TableHead class="h-8 text-[9px] text-right">Cant. Rest</TableHead>
-             <TableHead class="h-8 text-[9px] text-right">Ubicación</TableHead>
-             <TableHead class="h-8 text-[9px] text-right">Coste Unit.</TableHead>
-             <TableHead class="h-8 text-[9px] text-right">Coste Total</TableHead>
+             <TableHead class="h-8 text-[9px]">{{ t('expanded_lots.date') }}</TableHead>
+             <TableHead class="h-8 text-[9px]">{{ t('expanded_lots.type_status') }}</TableHead>
+             <TableHead class="h-8 text-[9px] text-right">{{ t('expanded_lots.orig_amount') }}</TableHead>
+             <TableHead class="h-8 text-[9px] text-right">{{ t('expanded_lots.rest_amount') }}</TableHead>
+             <TableHead class="h-8 text-[9px] text-right">{{ t('expanded_lots.location') }}</TableHead>
+             <TableHead class="h-8 text-[9px] text-right">{{ t('expanded_lots.unit_cost') }}</TableHead>
+             <TableHead class="h-8 text-[9px] text-right">{{ t('expanded_lots.total_cost') }}</TableHead>
           </TableRow>
        </TableHeader>
        <TableBody>
@@ -34,7 +34,7 @@
                             v-if="getLotHistory(lot.id).length"
                             @click="toggleLotHistory(lot.id)"
                             class="relative flex items-center justify-center p-1.5 rounded-full transition-all duration-300 hover:bg-primary/20 hover:shadow-[0_0_10px_rgba(var(--primary),0.3)] group/toggle"
-                            title="Ver historial del lote"
+                            :title="t('expanded_lots.view_history')"
                           >
                             <MinusCircle v-if="expandedLots.has(lot.id)" class="w-4 h-4 text-primary opacity-80 group-hover/toggle:opacity-100 transition-opacity" />
                             <PlusCircle v-else class="w-4 h-4 text-muted-foreground/50 group-hover/toggle:text-primary transition-colors" />
@@ -43,7 +43,7 @@
                       <TableCell class="py-2 text-muted-foreground font-mono text-[10px]">{{ formatDate(lot.date) }}</TableCell>
                       <TableCell class="py-2">
                          <div class="flex items-center gap-1.5 flex-wrap">
-                            <Badge variant="secondary" class="text-[8px] bg-profit/10 text-profit border-none font-black tracking-widest uppercase">COMPRA</Badge>
+                            <Badge variant="secondary" class="text-[8px] bg-profit/10 text-profit border-none font-black tracking-widest uppercase">{{ t('tx_type.buy') }}</Badge>
                             <Badge
                               v-if="getLotStatus(lot.id)"
                               :variant="getLotBadgeVariant(getLotStatus(lot.id)) as any"
@@ -54,12 +54,12 @@
                       <TableCell class="py-2 text-right font-mono text-muted-foreground text-[10px] tabular-nums">{{ lot.original_qty.toFixed(4) }}</TableCell>
                       <TableCell class="py-2 text-right font-mono font-bold text-primary text-[10px] tabular-nums">
                          {{ lot.remaining_qty.toFixed(4) }}
-                         <Badge v-if="lot.remaining_qty === 0" variant="outline" class="ml-2 text-[8px] tracking-widest uppercase opacity-70 border-muted">VENDIDO</Badge>
+                         <Badge v-if="lot.remaining_qty === 0" variant="outline" class="ml-2 text-[8px] tracking-widest uppercase opacity-70 border-muted">{{ t('lot_status.sold') }}</Badge>
                       </TableCell>
                       <TableCell class="py-2 text-right">
                          <div class="flex items-center justify-end gap-1.5">
                            <CryptoIcon :symbol="lot.exchange" :size="10" colored />
-                           <span class="text-[9px] font-black uppercase tracking-tighter opacity-70">{{ lot.exchange || 'Desconocido' }}</span>
+                           <span class="text-[9px] font-black uppercase tracking-tighter opacity-70">{{ lot.exchange || t('expanded_lots.unknown_exchange') }}</span>
                          </div>
                       </TableCell>
                       <TableCell class="py-2 text-right font-mono text-[10px] tabular-nums relative">
@@ -67,8 +67,8 @@
                            <div v-if="isLotInLoss(lot) && lot.remaining_qty > 0" class="group/tooltip relative cursor-help flex items-center">
                              <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse block"></span>
                              <div class="absolute right-0 bottom-full mb-2 w-48 p-2.5 bg-popover border border-amber-500/30 rounded-lg shadow-xl text-[9px] text-popover-foreground opacity-0 group-hover/tooltip:opacity-100 pointer-events-none transition-opacity z-50 normal-case font-sans tracking-normal leading-relaxed text-left">
-                                 <span class="font-bold text-amber-500 block mb-1">💡 AI Insight</span>
-                                 Este lote califica para <span class="font-bold">Tax-Loss Harvesting</span> antes del cierre fiscal.
+                                 <span class="font-bold text-amber-500 block mb-1">{{ t('expanded_lots.ai_insight') }}</span>
+                                 Este lote califica para <span class="font-bold">{{ t('expanded_lots.tax_loss') }}</span>{{ t('expanded_lots.tax_loss_desc') }}
                              </div>
                            </div>
                            {{ formatCurrency(lot.unit_cost) }}
@@ -86,7 +86,7 @@
              </template>
              <TableRow v-else>
                 <TableCell colspan="8" class="text-center py-10 text-muted-foreground/40 italic text-[10px] uppercase font-black tracking-widest">
-                   No se han encontrado lotes fiscales detallados
+                   {{ t('expanded_lots.no_lots') }}
                 </TableCell>
              </TableRow>
           </template>
@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { RefreshCw, MinusCircle, PlusCircle } from 'lucide-vue-next'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -112,6 +112,9 @@ import LotEventHistory from './LotEventHistory.vue'
 import ExpandedLotsSkeleton from './ExpandedLotsSkeleton.vue'
 import { cn } from '@/lib/utils'
 import { formatCurrency, formatDate } from '@/composables/useFormatters'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   assetSymbol: { type: String, required: true },
@@ -140,7 +143,7 @@ const getLotBadgeVariant = (status: string) =>
   ({ EMPTY: 'profit', PARTIAL: 'outline', FULL: 'secondary' })[status as keyof typeof getLotBadgeVariant] || 'secondary'
 
 const getLotStatusText = (status: string) => {
-  const map: Record<string, string> = { EMPTY: 'ABIERTO', PARTIAL: 'PARCIAL', FULL: 'VENDIDO' }
+  const map: Record<string, string> = { EMPTY: t('lot_status.open'), PARTIAL: t('lot_status.partial'), FULL: t('lot_status.sold') }
   return map[status] || status
 }
 

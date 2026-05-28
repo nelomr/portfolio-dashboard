@@ -6,7 +6,11 @@ import AssetCell from './cells/AssetCell.vue'
 import PerformanceCell from './cells/PerformanceCell.vue'
 import LocationsCell from './cells/LocationsCell.vue'
 
-export const createColumns = (onExpand: (symbol: string) => void, isLoading: boolean) => [
+export const createColumns = (
+  onExpand: (symbol: string) => void, 
+  isLoading: boolean,
+  t: (key: string) => string
+) => [
   {
     id: 'expander',
     header: () => null,
@@ -27,7 +31,7 @@ export const createColumns = (onExpand: (symbol: string) => void, isLoading: boo
   },
   {
     accessorKey: 'symbol',
-    header: 'Activo',
+    header: t('table.asset'),
     cell: ({ row }: any) => h(AssetCell, { 
       symbol: row.original.symbol, 
       onExpand 
@@ -36,7 +40,7 @@ export const createColumns = (onExpand: (symbol: string) => void, isLoading: boo
   },
   {
     id: 'balance',
-    header: () => h('div', { class: "text-right" }, "Balance"),
+    header: () => h('div', { class: "text-right" }, t('table.balance')),
     cell: ({ row }: any) => {
        const amount = row.original.amount || 0
        return h('div', { class: "text-right font-mono font-bold text-xs" }, amount.toFixed(4))
@@ -44,7 +48,7 @@ export const createColumns = (onExpand: (symbol: string) => void, isLoading: boo
   },
   {
     id: 'avg_cost',
-    header: () => h('div', { class: "text-right" }, "Coste Medio"),
+    header: () => h('div', { class: "text-right" }, t('table.avg_cost')),
     cell: ({ row }: any) => {
        const cost = formatCurrency(row.original.avgPriceEur || row.original.costBasisEur || 0)
        return h('div', { class: "text-right font-mono text-muted-foreground text-xs tabular-nums" }, cost)
@@ -52,7 +56,7 @@ export const createColumns = (onExpand: (symbol: string) => void, isLoading: boo
   },
   {
     accessorKey: 'currentValueEur',
-    header: () => h('div', { class: "text-right" }, "Valor de Mercado"),
+    header: () => h('div', { class: "text-right" }, t('table.market_value')),
     cell: ({ getValue }: any) => {
         const val = getValue() || 0
         return h('div', { class: "text-right font-mono font-black text-sm tracking-tighter tabular-nums" }, formatCurrency(val))
@@ -60,12 +64,12 @@ export const createColumns = (onExpand: (symbol: string) => void, isLoading: boo
   },
   {
     id: 'performance',
-    header: () => h('div', { class: "text-right" }, "Rendimiento"),
+    header: () => h('div', { class: "text-right" }, t('table.performance')),
     cell: ({ row }: any) => h(PerformanceCell, { row: row.original })
   },
   {
     id: 'locations',
-    header: () => h('div', { class: "text-right" }, "Ubicaciones"),
+    header: () => h('div', { class: "text-right" }, t('table.locations')),
     cell: ({ row }: any) => h(LocationsCell, { row: row.original, isLoading })
   }
 ]

@@ -4,7 +4,7 @@
     <div class="bg-card/40 backdrop-blur-md border border-border/20 shadow-alucard-soft rounded-xl p-4 hover:border-border/40 transition-colors">
       <div class="flex items-center gap-2 mb-2">
         <Wallet class="w-4 h-4 text-muted-foreground" />
-        <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Balance</span>
+        <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{{ t('token.balance') }}</span>
       </div>
       <div class="text-2xl font-mono text-foreground">{{ formatNumber(holding.amount) }}</div>
     </div>
@@ -13,7 +13,7 @@
     <div class="bg-card/40 backdrop-blur-md border border-border/20 shadow-alucard-soft rounded-xl p-4 hover:border-border/40 transition-colors">
       <div class="flex items-center gap-2 mb-2">
         <Coins class="w-4 h-4 text-muted-foreground" />
-        <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Valor Actual</span>
+        <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{{ t('token.current_value') }}</span>
       </div>
       <div class="text-2xl font-mono text-foreground">{{ formatCurrency(holding.currentValueEur) }}</div>
     </div>
@@ -22,7 +22,7 @@
     <div class="bg-card/40 backdrop-blur-md border border-border/20 shadow-alucard-soft rounded-xl p-4 hover:border-border/40 transition-colors">
       <div class="flex items-center gap-2 mb-2">
         <TrendingDown class="w-4 h-4 text-muted-foreground" />
-        <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Coste Base</span>
+        <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{{ t('token.base_cost') }}</span>
       </div>
       <div class="text-2xl font-mono text-foreground">{{ formatCurrency(holding.costBasisEur) }}</div>
     </div>
@@ -38,7 +38,7 @@
       <div class="relative z-10">
         <div class="flex items-center gap-2 mb-2">
           <TrendingUp class="w-4 h-4 text-muted-foreground" />
-          <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">PnL Latente</span>
+          <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{{ t('token.unrealized_pnl') }}</span>
         </div>
         <div 
           class="text-2xl font-mono font-bold"
@@ -55,6 +55,9 @@
 import { Wallet, Coins, TrendingDown, TrendingUp } from "lucide-vue-next";
 import { formatCurrency, formatNumber } from "@/composables/useFormatters";
 import type { CryptoAssetEntity } from "@/core/domain/models/PortfolioEntities";
+import { useI18n } from "@/composables/useI18n";
+
+const { t } = useI18n();
 
 defineProps<{
   holding: CryptoAssetEntity;

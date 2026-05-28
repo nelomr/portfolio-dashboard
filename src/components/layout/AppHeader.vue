@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useI18n } from "@/composables/useI18n";
 import CryptoIcon from "@/components/common/CryptoIcon/CryptoIcon.vue";
 
-const title = ref("Kriptofolio");
+const { t } = useI18n();
+const title = t('dashboard.title');
 </script>
 
 <template>

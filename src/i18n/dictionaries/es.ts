@@ -1,0 +1,108 @@
+import type { I18nDictionary } from '@/core/domain/models/I18nDictionary';
+
+export const es: I18nDictionary = {
+  'dashboard.title': 'Kriptofolio',
+  'dashboard.greeting': 'Hola {name}',
+  'navbar.portfolio': 'Portafolio',
+  'navbar.settings': 'Ajustes',
+  'navbar.logout': 'Cerrar sesión',
+
+  // Portfolio Header
+  'portfolio.roi': 'ROI Total',
+  'portfolio.invested': 'Capital Invertido',
+  'portfolio.analytics': 'Analítica',
+  'portfolio.syncing': '(Sincronizando...)',
+  'portfolio.no_assets': 'No se han encontrado activos en la cartera.',
+  'portfolio.subtitle': 'Motor FIFO Institucional • Año Fiscal 2026',
+  'portfolio.sync_btn': 'Sincronizar Portfolio',
+  
+  // Metrics
+  'metrics.net_equity': 'Patrimonio Neto Total',
+  'metrics.unrealized_pnl': 'PyG No Realizado',
+  'metrics.realized_pnl': 'PyG Realizado (Imponible)',
+
+  // Token Summary Cards
+  'token.balance': 'Balance',
+  'token.current_value': 'Valor Actual',
+  'token.base_cost': 'Coste Base',
+  'token.unrealized_pnl': 'PnL Latente',
+
+  // Token Active Lots
+  'token.active_lots.title': 'Lotes FIFO Activos (Unidades sin vender)',
+  'token.active_lots.date': 'Fecha de Adquisición',
+  'token.active_lots.remaining_qty': 'Cantidad Restante',
+  'token.active_lots.buy_price': 'Precio de Compra',
+  'token.active_lots.remaining_cost': 'Coste Restante',
+  'token.active_lots.status': 'Estado',
+  'token.active_lots.in_portfolio': 'En Cartera',
+
+  // Token Sales History
+  'token.sales_history.date': 'Fecha',
+  'token.sales_history.sold_qty': 'Cant. Vendida',
+  'token.sales_history.sell_price': 'Precio de Venta',
+  'token.sales_history.type': 'Tipo',
+  'token.sales_history.sold': 'Vendido',
+  'token.sales_history.title': 'Historial de Ventas y P&L Realizado',
+
+  // Expanded Lots Table properties merged below
+
+  // Lot Event History
+  'lot_events.date': 'Fecha Evento',
+  'lot_events.concept': 'Concepto',
+  'lot_events.sell_price': 'Precio Venta',
+  'lot_events.notes': 'Notas',
+  'lot_events.non_taxable': 'Evento No Imponible',
+  'lot_events.badge_activation': 'Activación',
+  'lot_events.badge_exempt': 'Exento',
+  'lot_events.badge_gain': 'BENEFICIO',
+  'lot_events.badge_loss': 'PÉRDIDA',
+  'lot_events.affected_amount': 'Cant. Afectada',
+  'lot_events.pnl': 'PyG (€)',
+  'lot_events.non_taxable_desc': 'Este movimiento no genera plusvalía/minusvalía fiscal (LIRPF Art. 33.1).',
+  
+  // Tables & Columns
+  'table.asset_type_crypto': 'Cryptocurrency',
+  'table.asset': 'Activo',
+  'table.balance': 'Balance',
+  'table.avg_cost': 'Coste Medio',
+  'table.market_value': 'Valor de Mercado',
+  'table.performance': 'Rendimiento',
+  'table.locations': 'Ubicaciones',
+  
+  // Expanded Lots Table
+  'expanded_lots.title': 'Lotes Fiscales FIFO (Abiertos)',
+  'expanded_lots.date': 'Fecha',
+  'expanded_lots.type_status': 'Tipo / Estado',
+  'expanded_lots.orig_amount': 'Cant. Orig',
+  'expanded_lots.rest_amount': 'Cant. Rest',
+  'expanded_lots.location': 'Ubicación',
+  'expanded_lots.unit_cost': 'Coste Unit.',
+  'expanded_lots.total_cost': 'Coste Total',
+  'expanded_lots.buy': 'COMPRA',
+  'expanded_lots.sold': 'VENDIDO',
+  'expanded_lots.ai_insight': '💡 AI Insight',
+  'expanded_lots.tax_loss': 'Tax-Loss Harvesting',
+  'expanded_lots.tax_loss_desc': ' antes del cierre fiscal.',
+  'expanded_lots.no_lots': 'No se han encontrado lotes fiscales detallados',
+  'expanded_lots.view_history': 'Ver historial del lote',
+  'expanded_lots.unknown_exchange': 'Desconocido',
+  
+  // Lot Status
+  'lot_status.open': 'ABIERTO',
+  'lot_status.partial': 'PARCIAL',
+  'lot_status.sold': 'VENDIDO',
+  
+  // Token Details
+  'token.no_details': 'No hay detalles disponibles para este activo.',
+  'token.details.title': 'Detalles de {symbol}',
+  'token.details.subtitle': 'Desglose histórico y fiscal completo',
+  'token.no_active_lots': 'No hay lotes abiertos para este activo.',
+  'token.no_sales_history': 'No hay historial de ventas.',
+  'token.gain_loss': 'Ganancia / Pérdida',
+
+  // Transaction Types (from MockAdapter etc)
+  'tx_type.buy': 'Compra',
+  'tx_type.sell': 'Venta',
+  'tx_type.deposit': 'Depósito',
+  'tx_type.airdrop': 'Airdrop'
+};

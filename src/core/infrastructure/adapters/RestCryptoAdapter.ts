@@ -20,6 +20,7 @@ import type {
 import {
   ExternalPortfolioSummarySchema,
   ExternalIngestionStatusSchema,
+  ExternalAssetSchema,
 } from '@/core/infrastructure/dtos/ExternalPortfolioSchemas'
 import { AssetIdSchema } from '@/core/domain/models/BrandedTypes'
 import { errorBus } from '@/core/infrastructure/errors/errorBus'
@@ -90,8 +91,6 @@ export class RestCryptoAdapter implements ICryptoPortfolioRepository {
 
   async getTokenDetails(symbol: string): Promise<CryptoAssetEntity> {
     const response = await this.http.get<unknown>(`/api/portfolio/token/${symbol}`)
-    // Re-use the asset schema for individual token detail parsing
-    const { ExternalAssetSchema } = await import('../dtos/ExternalPortfolioSchemas')
     const dto = parseOrFail(ExternalAssetSchema, response.data, `getTokenDetails(${symbol})`)
 
     return {

@@ -14,7 +14,7 @@
         {{ symbol }}
       </span>
       <span class="text-[9px] text-muted-foreground uppercase leading-none font-bold tracking-widest opacity-60">
-        Criptoactivo
+        {{ t('table.asset_type_crypto') }}
       </span>
     </div>
   </div>
@@ -22,6 +22,9 @@
 
 <script setup lang="ts">
 import { CryptoIcon } from '@/components/common/CryptoIcon'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 defineProps<{
   symbol: string

@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
 
 // Use vi.hoisted so mocks are available when vi.mock factory runs
-const { mockFitContent, mockSetData, mockAddSeries, mockRemove, mockCreateChart } =
+const { mockSetData, mockAddSeries, mockRemove, mockCreateChart } =
   vi.hoisted(() => {
     const mockFitContent = vi.fn()
     const mockSetData = vi.fn()
@@ -15,7 +15,7 @@ const { mockFitContent, mockSetData, mockAddSeries, mockRemove, mockCreateChart 
       timeScale: () => ({ fitContent: mockFitContent }),
       remove: mockRemove,
     }))
-    return { mockFitContent, mockSetData, mockAddSeries, mockRemove, mockCreateChart }
+    return { mockSetData, mockAddSeries, mockRemove, mockCreateChart }
   })
 
 vi.mock('lightweight-charts', () => ({

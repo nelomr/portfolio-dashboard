@@ -22,7 +22,7 @@ import {
 import { TransactionIdSchema } from '@/core/domain/models/BrandedTypes'
 import { errorBus } from '@/core/infrastructure/errors/errorBus'
 import { DomainValidationError } from './RestCryptoAdapter'
-import { z } from 'zod'
+
 
 // ---------------------------------------------------------------------------
 // Helper — parse with safeParse, emit to bus on failure

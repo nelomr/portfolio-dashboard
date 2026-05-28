@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import ExpandedLotsTable from '../table/ExpandedLotsTable.vue'
+import { I18N_PORT_KEY } from '@/core/injectionKeys'
 
 // Mock useVirtualizer to avoid complex DOM calculations in jsdom
 vi.mock('@tanstack/vue-virtual', () => {
@@ -22,7 +23,7 @@ vi.mock('@/components/common/CryptoIcon', () => ({ CryptoIcon: { template: '<div
 vi.mock('@/composables/useFormatters', () => ({
   formatCurrency: (val: number) => `€${val.toFixed(2)}`,
   formatPercent: (val: number) => `${val.toFixed(2)}%`,
-  formatDate: (val: number) => '01 Jan 2024'
+  formatDate: () => '01 Jan 2024'
 }))
 vi.mock('@/lib/utils', () => ({ cn: (...args: any[]) => args.join(' ') }))
 
@@ -72,6 +73,15 @@ describe('ExpandedLotsTable.vue', () => {
         lots: mockLots,
         tokenHistory: mockTokenHistory,
         isLoadingDetails: false
+      },
+      global: {
+        provide: {
+          [I18N_PORT_KEY as symbol]: {
+            translate: (key: string) => key,
+            setLanguage: vi.fn(),
+            getCurrentLanguage: vi.fn().mockReturnValue('en')
+          }
+        }
       }
     })
   })

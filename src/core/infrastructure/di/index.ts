@@ -3,13 +3,15 @@ import { inject } from 'vue'
 import type { Pinia } from 'pinia'
 
 // --- Hexagonal Architecture: Dependency Injection Setup ---
-import { PORTFOLIO_REPO_KEY, TAX_REPO_KEY } from '@/core/injectionKeys'
+import { PORTFOLIO_REPO_KEY, TAX_REPO_KEY, I18N_PORT_KEY } from '@/core/injectionKeys'
 import { MockCryptoAdapter } from '@/core/infrastructure/adapters/MockCryptoAdapter'
 import { MockTaxAdapter } from '@/core/infrastructure/adapters/MockTaxAdapter'
 import { RestCryptoAdapter } from '@/core/infrastructure/adapters/RestCryptoAdapter'
 import { RestTaxAdapter } from '@/core/infrastructure/adapters/RestTaxAdapter'
 import { AxiosHttpClient } from '@/core/infrastructure/http/AxiosHttpClient'
-
+import { EnvI18nAdapter } from '@/core/infrastructure/i18n/EnvI18nAdapter'
+import { es } from '@/i18n/dictionaries/es'
+import { en } from '@/i18n/dictionaries/en'
 /**
  * setupDependencyInjection
  * 
@@ -36,9 +38,14 @@ export function setupDependencyInjection(app: App, pinia: Pinia) {
     ? new MockTaxAdapter()
     : new RestTaxAdapter(httpClient)
 
+  const lang = import.meta.env.VITE_APP_LANG || 'en'
+  const dictionary = lang === 'en' ? en : es
+  const i18nAdapter = new EnvI18nAdapter(dictionary)
+
   // 2. Provide repositories globally to Vue components via Symbol keys
   app.provide(PORTFOLIO_REPO_KEY, portfolioRepo)
   app.provide(TAX_REPO_KEY, taxRepo)
+  app.provide(I18N_PORT_KEY, i18nAdapter)
 
   // 3. Inject repositories directly into Pinia stores
   // This solves the "[Vue warn]: inject() can only be used inside setup()" 

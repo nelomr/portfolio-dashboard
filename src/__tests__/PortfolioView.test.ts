@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import PortfolioView from '@/views/Portfolio/PortfolioView.vue'
 import * as portfolioData from '@/views/Portfolio/composables/usePortfolioData'
 
@@ -49,6 +49,8 @@ const mockPerformance = [
 
 import * as chartData from '@/views/Portfolio/composables/useChartData'
 
+import { I18N_PORT_KEY } from '@/core/injectionKeys'
+
 function mountView(
   dataOverrides: Partial<ReturnType<typeof portfolioData.usePortfolioData>> = {},
   chartOverrides: Partial<ReturnType<typeof chartData.useChartData>> = {}
@@ -78,7 +80,16 @@ function mountView(
   } as any)
 
   return mount(PortfolioView, {
-    global: { plugins: [createTestingPinia({ createSpy: vi.fn })] },
+    global: { 
+      plugins: [createTestingPinia({ createSpy: vi.fn })],
+      provide: {
+        [I18N_PORT_KEY as symbol]: {
+          translate: (key: string) => key,
+          setLanguage: vi.fn(),
+          getCurrentLanguage: vi.fn().mockReturnValue('en')
+        }
+      }
+    },
   })
 }
 
@@ -109,7 +120,7 @@ describe('PortfolioView', () => {
 
   it('shows "(Sincronizando...)" text when fetching', () => {
     const wrapper = mountView({ isFetching: ref(true) })
-    expect(wrapper.text()).toContain('Sincronizando...')
+    expect(wrapper.text()).toContain('portfolio.syncing')
   })
 
   it('calls handleRebuild on button click', async () => {
@@ -123,7 +134,7 @@ describe('PortfolioView', () => {
     const wrapper = mountView()
     const html = wrapper.html()
     const chartsIdx = html.indexOf('performance-chart-stub')
-    const metricsIdx = html.indexOf('Patrimonio Neto Total')
+    const metricsIdx = html.indexOf('metrics.net_equity')
     // Charts must appear before metrics row in the DOM
     expect(chartsIdx).toBeLessThan(metricsIdx)
   })
@@ -140,8 +151,8 @@ describe('PortfolioView', () => {
 
   it('hides charts when data arrays are empty', () => {
     const wrapper = mountView({}, {
-      allocationData: ref([]),
-      performanceData: ref([]),
+      allocationData: computed(() => []),
+      performanceData: computed(() => []),
     })
     expect(wrapper.find('[data-testid="performance-chart-stub"]').exists()).toBe(false)
     expect(wrapper.find('[data-testid="allocation-chart-stub"]').exists()).toBe(false)

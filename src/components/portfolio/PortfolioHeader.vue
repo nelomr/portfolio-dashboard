@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { RefreshCw } from 'lucide-vue-next'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 defineProps<{
   isFetching: boolean
@@ -17,7 +20,7 @@ const emit = defineEmits<{
       <h1
         class="text-3xl lg:text-4xl font-black tracking-tighter uppercase leading-none bg-gradient-to-r from-primary via-primary/80 to-primary/40 bg-clip-text text-transparent"
       >
-        Kriptofolio <span class="opacity-40 font-thin italic">Analítica</span>
+        Kriptofolio <span class="opacity-40 font-thin italic">{{ t('portfolio.analytics') }}</span>
       </h1>
       <div class="flex items-center gap-2">
         <span
@@ -29,8 +32,8 @@ const emit = defineEmits<{
           "
         />
         <p class="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] font-bold">
-          Motor FIFO Institucional • Año Fiscal 2026
-          <span v-if="isFetching" class="text-amber-400 ml-2 animate-pulse">(Sincronizando...)</span>
+          {{ t('portfolio.subtitle') }}
+          <span v-if="isFetching" class="text-amber-400 ml-2 animate-pulse">{{ t('portfolio.syncing') }}</span>
         </p>
       </div>
     </div>
@@ -41,7 +44,7 @@ const emit = defineEmits<{
       class="inline-flex items-center gap-2 h-9 px-4 rounded-md border border-border/40 text-[10px] font-black uppercase tracking-widest hover:bg-primary/10 hover:text-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
     >
       <RefreshCw class="w-3.5 h-3.5" :class="{ 'animate-spin': isRebuilding }" />
-      {{ isRebuilding ? 'Sincronizando...' : 'Sincronizar Portfolio' }}
+      {{ isRebuilding ? t('portfolio.syncing') : t('portfolio.sync_btn') }}
     </button>
   </header>
 </template>

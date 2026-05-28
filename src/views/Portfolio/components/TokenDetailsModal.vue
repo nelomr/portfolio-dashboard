@@ -58,10 +58,10 @@ defineEmits(["close"]);
   overflow: hidden;
 }
 
-/* Transición base para el contenedor (solo opacidad) */
+/* Base transition for the container (opacity only) */
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s ease-out;
+  transition: opacity 0.3s ease;
 }
 
 .modal-enter-from,
@@ -69,7 +69,7 @@ defineEmits(["close"]);
   opacity: 0;
 }
 
-/* Transición específica para el panel (transformación y escala fluidas) */
+/* Specific transition for the panel (smooth transform and scale) */
 .modal-enter-active .modal-panel {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }

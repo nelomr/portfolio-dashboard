@@ -4,10 +4,10 @@
       <CryptoIcon :symbol="symbol" :size="40" colored />
       <div>
         <h3 class="text-xl leading-6 font-bold text-foreground tracking-tight" id="modal-headline">
-          Detalles de {{ symbol }}
+          {{ t('token.details.title').replace('{symbol}', symbol) }}
         </h3>
         <p class="text-sm text-muted-foreground">
-          Desglose histórico y fiscal completo
+          {{ t('token.details.subtitle') }}
         </p>
       </div>
     </div>
@@ -23,6 +23,9 @@
 <script setup lang="ts">
 import { CryptoIcon } from "@/components/common/CryptoIcon";
 import { X } from 'lucide-vue-next';
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 defineProps<{
   symbol: string

@@ -16,13 +16,7 @@ import {
   LotIdSchema,
 } from '@/core/domain/models/BrandedTypes'
 import type {
-  AssetId,
-  TransactionId,
-  LotId,
-} from '@/core/domain/models/BrandedTypes'
-import type {
   CryptoAssetEntity,
-  HoldingEntity,
   PortfolioSummaryEntity,
 } from '@/core/domain/models/PortfolioEntities'
 import type {

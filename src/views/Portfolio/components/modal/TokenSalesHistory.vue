@@ -2,17 +2,17 @@
   <section>
     <h3 class="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
       <span class="w-2 h-2 rounded-full bg-accent shadow-[0_0_10px_var(--color-accent)] opacity-80"></span>
-      Historial de Ventas y P&L Realizado
+      {{ t('token.sales_history.title') }}
     </h3>
     <div class="overflow-x-auto rounded-lg border border-border/20 bg-muted/10 shadow-inner">
       <table class="w-full text-left text-sm">
         <thead class="bg-muted/30 text-muted-foreground border-b border-border/20 uppercase text-[10px] tracking-widest font-bold">
           <tr>
-            <th class="px-4 py-3">Fecha de Venta</th>
-            <th class="px-4 py-3 text-right">Cantidad Vendida</th>
-            <th class="px-4 py-3 text-right">Precio de Venta</th>
-            <th class="px-4 py-3 text-right">Ganancia / Pérdida</th>
-            <th class="px-4 py-3 text-center">Tipo</th>
+            <th class="px-4 py-3">{{ t('token.sales_history.date') }}</th>
+            <th class="px-4 py-3 text-right">{{ t('token.sales_history.sold_qty') }}</th>
+            <th class="px-4 py-3 text-right">{{ t('token.sales_history.sell_price') }}</th>
+            <th class="px-4 py-3 text-right">{{ t('token.gain_loss') }}</th>
+            <th class="px-4 py-3 text-center">{{ t('token.sales_history.type') }}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-border/10">
@@ -24,11 +24,11 @@
               <span v-if="disp.gain_loss_eur > 0">+</span>{{ formatCurrency(disp.gain_loss_eur) }}
             </td>
             <td class="px-4 py-3 text-center">
-                <Badge variant="outline" class="text-[9px] bg-accent/10 text-accent border-accent/20 uppercase tracking-widest border-none">Vendido</Badge>
+                <Badge variant="outline" class="text-[9px] bg-accent/10 text-accent border-accent/20 uppercase tracking-widest border-none">{{ t('token.sales_history.sold') }}</Badge>
             </td>
           </tr>
           <tr v-if="history.length === 0">
-            <td colspan="5" class="px-4 py-8 text-center text-muted-foreground/60 italic text-[10px] uppercase font-black tracking-widest">No hay historial de ventas.</td>
+            <td colspan="5" class="px-4 py-8 text-center text-muted-foreground/60 italic text-[10px] uppercase font-black tracking-widest">{{ t('token.no_sales_history') }}</td>
           </tr>
         </tbody>
       </table>
@@ -40,6 +40,9 @@
 import { formatCurrency, formatNumber, formatDate } from '@/composables/useFormatters'
 import { Badge } from '@/components/ui/badge'
 import type { LotHistoryEvent } from '@/types/portfolio'
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 defineProps<{
   history: LotHistoryEvent[]

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from 'vue'
-import { createChart, ColorType, AreaSeries } from 'lightweight-charts'
+import { createChart, ColorType, AreaSeries, type ISeriesApi } from 'lightweight-charts'
 
 interface ChartDataPoint {
   time: string
@@ -13,7 +13,7 @@ const props = defineProps<{
 
 const chartContainer = ref<HTMLDivElement | null>(null)
 let chart: ReturnType<typeof createChart> | null = null
-let areaSeries: ReturnType<typeof chart.addSeries> | null = null
+let areaSeries: ISeriesApi<"Area"> | null = null
 
 function initChart() {
   if (!chartContainer.value || !props.data.length) return
@@ -54,6 +54,7 @@ function initChart() {
     lastValueVisible: false,
   })
 
+  if (!areaSeries) return
   areaSeries.setData(props.data)
   chart.timeScale().fitContent()
 }

@@ -4,12 +4,12 @@
     <div v-if="holding" class="space-y-8">
       <TokenSummaryCards :holding="holding" />
 
-      <TokenActiveLots :lots="lots" />
+      <TokenActiveLots :lots="lots || []" />
       <TokenSalesHistory :history="disposalHistory" />
     </div>
 
     <div v-else class="py-12 text-center text-muted-foreground">
-      <p>No hay detalles disponibles para este activo.</p>
+      <p>{{ t('token.no_details') }}</p>
     </div>
   </div>
 </template>
@@ -22,6 +22,9 @@ import TokenSalesHistory from "./TokenSalesHistory.vue";
 import TokenDetailsSkeleton from "./TokenDetailsSkeleton.vue";
 import type { CryptoAssetEntity } from "@/core/domain/models/PortfolioEntities";
 import type { TaxLot, LotRecord } from "@/types/portfolio";
+import { useI18n } from '@/composables/useI18n'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   holding?: CryptoAssetEntity | null;

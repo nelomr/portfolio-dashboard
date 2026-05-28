@@ -44,6 +44,25 @@ cp .env.production.example .env.production
 **Variables Clave:**
 - `VITE_USE_MOCK`: Configúralo en `true` para usar los adaptadores mock locales (útil si no tienes el backend de Python ejecutándose localmente). Configúralo en `false` para usar los adaptadores reales de la API REST.
 - `VITE_API_BASE_URL`: La URL del backend de Python (ej. `http://localhost:8000`).
+- `VITE_APP_LANG`: El idioma de la interfaz. Las opciones válidas actualmente son `es` o `en`.
+
+### 🌍 Internacionalización (i18n)
+
+Kryptofolio utiliza un sistema de traducción basado en el entorno y sin dependencias externas.
+
+**Para elegir un idioma:**
+Configura `VITE_APP_LANG=en` (Inglés) o `VITE_APP_LANG=es` (Español) en tu archivo `.env` y reinicia el servidor de desarrollo. Si la variable no existe o es inválida, usará Inglés por defecto.
+
+**Para añadir un idioma nuevo (ej. Francés `fr`):**
+1. Crea un nuevo archivo `src/i18n/dictionaries/fr.ts`.
+2. Copia la estructura de `en.ts` y traduce los valores. Asegúrate de que el objeto cumpla con la interfaz `I18nDictionary`.
+3. Abre `src/core/infrastructure/i18n/EnvI18nAdapter.ts`.
+4. Importa el nuevo diccionario: `import { fr } from '@/i18n/dictionaries/fr'`
+5. Añádelo al mapa `dictionaries` dentro del adaptador:
+   ```typescript
+   const dictionaries: Record<string, I18nDictionary> = { en, es, fr }
+   ```
+6. Configura `VITE_APP_LANG=fr` en tu archivo `.env`.
 
 ---
 
