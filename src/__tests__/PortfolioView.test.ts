@@ -60,6 +60,14 @@ function mountView(
     handleRebuild: vi.fn(),
     store: {} as any,
     filteredHoldings: ref([]),
+    isModalOpen: ref(false),
+    selectedSymbol: ref(''),
+    selectedHolding: ref(undefined),
+    tokenDetails: ref(undefined),
+    isFetchingDetails: ref(false),
+    handleExpandSymbol: vi.fn(),
+    expandedDetailsMap: ref({}),
+    handleRowExpand: vi.fn(),
     ...dataOverrides,
   } as any)
 

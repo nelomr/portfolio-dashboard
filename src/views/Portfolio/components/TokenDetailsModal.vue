@@ -1,0 +1,88 @@
+<template>
+  <Teleport to="body">
+    <Transition name="modal">
+      <div
+        id="token-details-modal"
+        v-if="isOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <!-- Extracted Backdrop -->
+        <TokenDetailsBackdrop @close="$emit('close')" />
+
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+
+        <!-- Modal Panel -->
+        <div
+          class="modal-panel relative z-10 inline-block align-bottom bg-background rounded-2xl text-left overflow-hidden shadow-2xl sm:my-8 sm:align-middle sm:max-w-4xl w-full border border-border"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-headline"
+        >
+          <!-- Extracted Header -->
+          <TokenDetailsHeader :symbol="symbol" @close="$emit('close')" />
+
+          <!-- Extracted Content -->
+          <TokenDetailsContent :holding="holding" :lots="lots" :history="history" :loading="loading" />
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<script setup lang="ts">
+import TokenDetailsBackdrop from "./modal/TokenDetailsBackdrop.vue";
+import TokenDetailsHeader from "./modal/TokenDetailsHeader.vue";
+import TokenDetailsContent from "./modal/TokenDetailsContent.vue";
+import type { CryptoAssetEntity } from "@/core/domain/models/PortfolioEntities";
+import type { TaxLot, LotRecord } from "@/types/portfolio";
+
+const props = defineProps<{
+  symbol: string;
+  holding?: CryptoAssetEntity | null;
+  lots?: TaxLot[];
+  history?: Record<string, LotRecord>;
+  loading?: boolean;
+  isOpen?: boolean;
+}>();
+
+defineEmits(["close"]);
+</script>
+
+<style scoped>
+/* Modern CSS way to lock scroll globally while modal is mounted */
+:global(body:has(#token-details-modal)) {
+  overflow: hidden;
+}
+
+/* Transición base para el contenedor (solo opacidad) */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+/* Transición específica para el panel (transformación y escala fluidas) */
+.modal-enter-active .modal-panel {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-leave-active .modal-panel {
+  transition: transform 0.3s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.modal-enter-from .modal-panel {
+  transform: scale(0.95) translateY(15px);
+}
+
+.modal-leave-to .modal-panel {
+  transform: scale(0.97) translateY(5px);
+}
+</style>

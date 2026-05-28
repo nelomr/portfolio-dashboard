@@ -1,10 +1,21 @@
-import { computed } from 'vue'
-import { usePortfolioSummaryQuery, useRebuildMutation } from '@/composables/queries/usePortfolioQueries'
+import { computed, ref } from 'vue'
+import { usePortfolioSummaryQuery, useRebuildMutation, useTokenHistoryQuery, usePortfolioRepo } from '@/composables/queries/usePortfolioQueries'
 
 export function usePortfolioData() {
   // Use Pinia Colada queries instead of the old store
   const { data: summary, isLoading: isFetching } = usePortfolioSummaryQuery()
   const { mutateAsync: rebuild, isLoading: isRebuilding } = useRebuildMutation()
+  const repo = usePortfolioRepo()
+
+  // Modal and details state
+  const selectedSymbol = ref('')
+  const isModalOpen = ref(false)
+  
+  // Fetch details (lots and history) from the Port/Adapter (for the modal)
+  const { data: tokenDetails, isLoading: isFetchingDetails } = useTokenHistoryQuery(selectedSymbol)
+
+  // Dictionary cache for hierarchical table expanded rows
+  const expandedDetailsMap = ref<Record<string, { lots: any, history: any, isLoading: boolean }>>({})
 
   // Computed metrics
   const metrics = computed(() => summary.value?.metrics || null)
@@ -21,11 +32,42 @@ export function usePortfolioData() {
     await rebuild()
   }
 
+  const handleExpandSymbol = (symbol: string) => {
+    selectedSymbol.value = symbol
+    isModalOpen.value = true
+  }
+
+  const handleRowExpand = async (symbol: string) => {
+    // If already cached or fetching, don't fetch again
+    if (expandedDetailsMap.value[symbol]) return 
+
+    expandedDetailsMap.value[symbol] = { lots: [], history: {}, isLoading: true }
+    
+    try {
+      const data = await repo.getTokenHistory(symbol)
+      expandedDetailsMap.value[symbol] = { lots: data.lots, history: data.history, isLoading: false }
+    } catch (error) {
+      expandedDetailsMap.value[symbol].isLoading = false
+    }
+  }
+
   return {
     isFetching,
     isRebuilding,
     metrics,
     filteredHoldings,
-    handleRebuild
+    handleRebuild,
+    
+    // Modal & Details
+    isModalOpen,
+    selectedSymbol,
+    selectedHolding: computed(() => filteredHoldings.value.find(h => h.symbol === selectedSymbol.value)),
+    tokenDetails,
+    isFetchingDetails,
+    handleExpandSymbol,
+
+    // Hierarchical Table Lazy Props
+    expandedDetailsMap,
+    handleRowExpand
   }
 }

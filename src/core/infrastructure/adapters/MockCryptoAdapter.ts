@@ -88,9 +88,14 @@ export class MockCryptoAdapter implements ICryptoPortfolioRepository {
     return holding
   }
 
-  async getTokenHistory(_symbol: string): Promise<Record<string, unknown>> {
+  async getTokenHistory(symbol: string): Promise<Record<string, any>> {
     await delay(250)
-    return {} // Stub — extend with mock lot history when needed
+    // Return the rich 3-level mock data
+    const mockPortfolio = (await import('@/data/mockPortfolio')).default
+    const lots = mockPortfolio.lots[symbol as keyof typeof mockPortfolio.lots] || []
+    const history = mockPortfolio.history[symbol as keyof typeof mockPortfolio.history] || {}
+    
+    return { lots, history }
   }
 
   async getIngestionStatus(): Promise<IngestionStatusEntity> {

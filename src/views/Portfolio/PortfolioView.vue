@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { usePortfolioData } from './composables/usePortfolioData'
-import { useChartData } from './composables/useChartData'
-import { usePortfolioMetrics } from '@/composables/usePortfolioMetrics'
-import { formatCurrency } from '@/composables/useFormatters'
+import { usePortfolioData } from "./composables/usePortfolioData";
+import { useChartData } from "./composables/useChartData";
+import { usePortfolioMetrics } from "@/composables/usePortfolioMetrics";
+import { formatCurrency } from "@/composables/useFormatters";
 
-import PortfolioHeader from '@/components/portfolio/PortfolioHeader.vue'
-import MetricsRow from '@/components/portfolio/MetricsRow.vue'
-import ChartsRow from '@/components/portfolio/ChartsRow.vue'
+import PortfolioHeader from "@/components/portfolio/PortfolioHeader.vue";
+import MetricsRow from "@/components/portfolio/MetricsRow.vue";
+import MetricsRowSkeleton from "@/components/portfolio/MetricsRowSkeleton.vue";
+import ChartsRow from "@/components/portfolio/ChartsRow.vue";
+import ChartsRowSkeleton from "@/components/portfolio/ChartsRowSkeleton.vue";
+
+import LotHierarchyTable from "./components/LotHierarchyTable.vue";
+import TokenDetailsModal from "./components/TokenDetailsModal.vue";
 
 // 1. Data Fetching & State
 const {
@@ -15,14 +20,32 @@ const {
   isRebuilding,
   handleRebuild,
   filteredHoldings,
-} = usePortfolioData()
+
+  // Modal & Details State (from Port/Adapter)
+  isModalOpen,
+  selectedSymbol,
+  selectedHolding,
+  tokenDetails,
+  isFetchingDetails,
+  handleExpandSymbol,
+  expandedDetailsMap,
+  handleRowExpand,
+} = usePortfolioData();
 
 // 2. Formatting & Calculations
-const { pnlValue, roiFormatted, isBullish, realizedIsPositive, realizedPnlValue } =
-  usePortfolioMetrics(metrics)
+const {
+  pnlValue,
+  roiFormatted,
+  isBullish,
+  realizedIsPositive,
+  realizedPnlValue,
+} = usePortfolioMetrics(metrics);
 
 // 3. UI Chart Data Transformation
-const { allocationData, performanceData } = useChartData(metrics, filteredHoldings)
+const { allocationData, performanceData } = useChartData(
+  metrics,
+  filteredHoldings,
+);
 </script>
 
 <template>
@@ -37,13 +60,17 @@ const { allocationData, performanceData } = useChartData(metrics, filteredHoldin
     <!-- Content Grid -->
     <div class="flex-1 min-h-0 flex flex-col gap-6 lg:gap-8">
       <!-- 1. Charts first (reference layout) -->
+      <ChartsRowSkeleton v-if="isFetching" />
       <ChartsRow
+        v-else
         :performanceData="performanceData"
         :allocationData="allocationData"
       />
 
       <!-- 2. Metrics row below charts -->
+      <MetricsRowSkeleton v-if="isFetching" />
       <MetricsRow
+        v-else
         :totalEquity="formatCurrency(metrics?.totalEquityEur)"
         :unrealizedPnl="formatCurrency(pnlValue)"
         :realizedPnl="formatCurrency(realizedPnlValue)"
@@ -52,8 +79,25 @@ const { allocationData, performanceData } = useChartData(metrics, filteredHoldin
         :realizedIsPositive="realizedIsPositive"
       />
 
-      <!-- 3. Holdings Table — Proposal 05 -->
-      <!-- <HoldingsTable /> -->
+      <!-- 3. Holdings Table -->
+      <LotHierarchyTable
+        :data="filteredHoldings as any"
+        :isLoading="isFetching"
+        :onExpand="handleExpandSymbol"
+        :detailsMap="expandedDetailsMap"
+        @expandRow="handleRowExpand"
+      />
     </div>
+
+    <!-- 4. Token Details Modal -->
+    <TokenDetailsModal
+      :isOpen="isModalOpen"
+      :symbol="selectedSymbol"
+      :holding="selectedHolding"
+      :lots="tokenDetails?.lots"
+      :history="tokenDetails?.history"
+      :loading="isFetchingDetails"
+      @close="isModalOpen = false"
+    />
   </div>
 </template>

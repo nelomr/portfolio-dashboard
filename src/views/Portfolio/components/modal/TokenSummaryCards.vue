@@ -1,0 +1,62 @@
+<template>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <!-- Balance -->
+    <div class="bg-card/40 backdrop-blur-md border border-border/20 shadow-alucard-soft rounded-xl p-4 hover:border-border/40 transition-colors">
+      <div class="flex items-center gap-2 mb-2">
+        <Wallet class="w-4 h-4 text-muted-foreground" />
+        <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Balance</span>
+      </div>
+      <div class="text-2xl font-mono text-foreground">{{ formatNumber(holding.amount) }}</div>
+    </div>
+
+    <!-- Valor Actual -->
+    <div class="bg-card/40 backdrop-blur-md border border-border/20 shadow-alucard-soft rounded-xl p-4 hover:border-border/40 transition-colors">
+      <div class="flex items-center gap-2 mb-2">
+        <Coins class="w-4 h-4 text-muted-foreground" />
+        <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Valor Actual</span>
+      </div>
+      <div class="text-2xl font-mono text-foreground">{{ formatCurrency(holding.currentValueEur) }}</div>
+    </div>
+
+    <!-- Coste de Adquisición -->
+    <div class="bg-card/40 backdrop-blur-md border border-border/20 shadow-alucard-soft rounded-xl p-4 hover:border-border/40 transition-colors">
+      <div class="flex items-center gap-2 mb-2">
+        <TrendingDown class="w-4 h-4 text-muted-foreground" />
+        <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Coste Base</span>
+      </div>
+      <div class="text-2xl font-mono text-foreground">{{ formatCurrency(holding.costBasisEur) }}</div>
+    </div>
+
+    <!-- PnL Latente -->
+    <div class="bg-card/40 backdrop-blur-md border border-border/20 shadow-alucard-soft rounded-xl p-4 relative overflow-hidden group hover:border-border/40 transition-colors">
+      <!-- Glow effect -->
+      <div 
+        class="absolute inset-0 opacity-5 transition-opacity duration-500 group-hover:opacity-10"
+        :class="holding.unrealizedPnlEur >= 0 ? 'bg-profit' : 'bg-loss'"
+      ></div>
+      
+      <div class="relative z-10">
+        <div class="flex items-center gap-2 mb-2">
+          <TrendingUp class="w-4 h-4 text-muted-foreground" />
+          <span class="text-xs font-semibold text-muted-foreground uppercase tracking-widest">PnL Latente</span>
+        </div>
+        <div 
+          class="text-2xl font-mono font-bold"
+          :class="holding.unrealizedPnlEur >= 0 ? 'text-profit' : 'text-loss'"
+        >
+          {{ formatCurrency(holding.unrealizedPnlEur) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { Wallet, Coins, TrendingDown, TrendingUp } from "lucide-vue-next";
+import { formatCurrency, formatNumber } from "@/composables/useFormatters";
+import type { CryptoAssetEntity } from "@/core/domain/models/PortfolioEntities";
+
+defineProps<{
+  holding: CryptoAssetEntity;
+}>();
+</script>

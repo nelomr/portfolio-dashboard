@@ -91,6 +91,18 @@ const mockPortfolio = {
         total_cost: 8_100.00,
       },
     ],
+    SOL: [
+      {
+        id: 'lot_sol_1',
+        symbol: 'SOL',
+        date: 1_693_526_400, // 2023-09-01
+        exchange: 'Phantom',
+        original_qty: 100,
+        remaining_qty: 50,
+        unit_cost: 60.00,
+        total_cost: 3_000.00,
+      },
+    ],
   },
 
   // Level 3 — lot history keyed by symbol → lot ID
@@ -106,7 +118,7 @@ const mockPortfolio = {
             sale_price_eur: 30_000.00,
             gain_loss_eur: 2_000.00,
             is_taxable: true,
-            notes: 'Partial sale during bull run',
+            notes: 'Venta parcial',
           },
         ],
       },
@@ -119,6 +131,22 @@ const mockPortfolio = {
       lot_eth_1: {
         status: 'EMPTY' as const,
         history: [],
+      },
+    },
+    SOL: {
+      lot_sol_1: {
+        status: 'PARTIAL' as const,
+        history: [
+          {
+            id: 'event_sol_1_1',
+            disposal_date: 1_702_339_200, // 2023-12-12
+            amount_from_lot: 50,
+            sale_price_eur: 110.00,
+            gain_loss_eur: 2_500.00,
+            is_taxable: true,
+            notes: 'Toma de beneficios parcial',
+          },
+        ],
       },
     },
   },
@@ -151,5 +179,5 @@ export const mockNonTaxableEvent: LotHistoryEvent = {
   gain_loss_eur: 0,
   is_taxable: false,
   flag: 'WALLET_ACTIVATION',
-  notes: 'Transfer to cold wallet — not a taxable disposal',
+  notes: 'Transferencia a cold wallet — no es una permuta sujeta a impuestos',
 }

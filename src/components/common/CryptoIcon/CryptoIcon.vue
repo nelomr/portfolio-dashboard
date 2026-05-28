@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { cn } from '@/lib/utils'
+import { CryptoIcons } from '@/assets/crypto'
 
 const props = defineProps({
   symbol: {
@@ -21,15 +22,23 @@ const props = defineProps({
   }
 })
 
+// Tipamos CryptoIcons en caso de que index.js no exporte los tipos explícitamente
+const icons = CryptoIcons as Record<string, string>
+
 const iconSymbolUrl = computed(() => {
   const s = props.symbol?.toLowerCase() || 'generic'
-  return new URL(`../../../assets/crypto/${s}.svg`, import.meta.url).href
+  return icons[s] || icons.generic
 })
 
 const iconStyle = computed(() => ({
   width: `${props.size}px`,
   height: `${props.size}px`
 }))
+
+const handleImageError = (event: Event) => {
+  const target = event.target as HTMLImageElement
+  target.src = icons.generic
+}
 </script>
 
 <template>
@@ -46,7 +55,7 @@ const iconStyle = computed(() => ({
       :alt="symbol" 
       class="w-full h-full object-contain"
       :class="[!colored && 'grayscale brightness-0 dark:invert']"
-      @error="$event.target.src = new URL(`../../../assets/crypto/generic.svg`, import.meta.url).href"
+      @error="handleImageError"
     />
   </div>
 </template>

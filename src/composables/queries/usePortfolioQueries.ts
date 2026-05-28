@@ -7,7 +7,7 @@ import type { PortfolioSummaryEntity } from '@/core/domain/models/PortfolioEntit
 /**
  * Helper to securely inject the portfolio repository.
  */
-function usePortfolioRepo(): ICryptoPortfolioRepository {
+export function usePortfolioRepo(): ICryptoPortfolioRepository {
   const repo = inject(PORTFOLIO_REPO_KEY)
   if (!repo) {
     throw new Error(
@@ -29,6 +29,20 @@ export function usePortfolioSummaryQuery() {
     key: ['portfolio-summary'],
     query: () => repo.getSummary(),
     // Colada handles deduplication, caching, and state out of the box
+  })
+}
+
+/**
+ * useTokenHistoryQuery
+ * Fetches the specific lot and event history for a given symbol.
+ */
+export function useTokenHistoryQuery(symbol: import('vue').Ref<string>) {
+  const repo = usePortfolioRepo()
+
+  return useQuery({
+    key: () => ['token-history', symbol.value],
+    query: () => repo.getTokenHistory(symbol.value),
+    enabled: () => !!symbol.value,
   })
 }
 

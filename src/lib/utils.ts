@@ -56,3 +56,15 @@ export function stringToColor(str: string): string {
   const color = Math.floor(Math.abs((Math.sin(hash) * 10000) % 1 * 16777215)).toString(16)
   return '#' + '000000'.substring(0, 6 - color.length) + color
 }
+
+/**
+ * Generates a deterministic Hue value (0-360) from a string.
+ * This is used to feed CSS variables (--badge-hue) for perfect light/dark mode contrast via Tailwind.
+ */
+export function getDeterministicHue(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash % 359);
+}

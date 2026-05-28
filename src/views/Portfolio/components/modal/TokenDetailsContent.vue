@@ -1,0 +1,39 @@
+<template>
+  <TokenDetailsSkeleton v-if="loading" />
+  <div v-else class="px-6 py-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
+    <div v-if="holding" class="space-y-8">
+      <TokenSummaryCards :holding="holding" />
+
+      <TokenActiveLots :lots="lots" />
+      <TokenSalesHistory :history="disposalHistory" />
+    </div>
+
+    <div v-else class="py-12 text-center text-muted-foreground">
+      <p>No hay detalles disponibles para este activo.</p>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from "vue";
+import TokenSummaryCards from "./TokenSummaryCards.vue";
+import TokenActiveLots from "./TokenActiveLots.vue";
+import TokenSalesHistory from "./TokenSalesHistory.vue";
+import TokenDetailsSkeleton from "./TokenDetailsSkeleton.vue";
+import type { CryptoAssetEntity } from "@/core/domain/models/PortfolioEntities";
+import type { TaxLot, LotRecord } from "@/types/portfolio";
+
+const props = defineProps<{
+  holding?: CryptoAssetEntity | null;
+  lots?: TaxLot[];
+  history?: Record<string, LotRecord>;
+  loading: boolean;
+}>();
+
+const disposalHistory = computed(() => {
+  if (!props.history) return [];
+  return Object.values(props.history)
+    .flatMap((record) => record.history || [])
+    .sort((a, b) => b.disposal_date - a.disposal_date);
+});
+</script>
