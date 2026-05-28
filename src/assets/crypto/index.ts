@@ -342,6 +342,7 @@ import KncIcon from './knc.svg'
 import KndcIcon from './kndc.svg'
 import KrakenIcon from './kraken.svg'
 import KrbIcon from './krb.svg'
+import KryptofolioIcon from './kryptofolio.svg'
 import KsmIcon from './ksm.svg'
 import LaIcon from './la.svg'
 import LbcIcon from './lbc.svg'
@@ -1060,6 +1061,7 @@ export const CryptoIcons = {
   'kndc': KndcIcon,
   'kraken': KrakenIcon,
   'krb': KrbIcon,
+  'kryptofolio': KryptofolioIcon,
   'ksm': KsmIcon,
   'la': LaIcon,
   'lbc': LbcIcon,

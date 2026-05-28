@@ -17,7 +17,7 @@ const emit = defineEmits<{
       <h1
         class="text-3xl lg:text-4xl font-black tracking-tighter uppercase leading-none bg-gradient-to-r from-primary via-primary/80 to-primary/40 bg-clip-text text-transparent"
       >
-        Cartera <span class="opacity-40 font-thin italic">Analítica</span>
+        Kriptofolio <span class="opacity-40 font-thin italic">Analítica</span>
       </h1>
       <div class="flex items-center gap-2">
         <span

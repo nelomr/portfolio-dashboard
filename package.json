@@ -1,9 +1,14 @@
 {
-  "name": "portfolio-dashboard",
+  "name": "kryptofolio",
   "private": true,
-  "version": "0.1.0",
-  "description": "A professional crypto portfolio dashboard built with Vue 3 + TypeScript.",
+  "version": "1.4.1",
+  "description": "Kryptofolio - An open-source crypto portfolio tracker built with Vue 3.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nelomr/kriptofolio.git"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { Zap } from "lucide-vue-next";
+import CryptoIcon from "@/components/common/CryptoIcon/CryptoIcon.vue";
 
-const title = ref("Cartera");
+const title = ref("Kriptofolio");
 </script>
 
 <template>
@@ -10,10 +10,8 @@ const title = ref("Cartera");
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
         <div class="flex items-center gap-3">
-          <div
-            class="h-8 w-8 rounded-lg bg-primary flex items-center justify-center shadow-lg"
-          >
-            <Zap class="w-5 h-5 text-primary-foreground" />
+          <div class="h-8 w-8 flex items-center justify-center">
+            <CryptoIcon symbol="kryptofolio" :size="28" :colored="true" class="drop-shadow-md" />
           </div>
           <h1 class="text-xl font-semibold tracking-tight">{{ title }}</h1>
         </div>
