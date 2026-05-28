@@ -3,6 +3,12 @@
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
+## [1.4.0](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.6...v1.4.0) (2026-05-28)
+
+### ✨ Features
+
+* **ui:** implement delegated skeleton pattern and SFC columns refactor ([cd6b9c2](https://github.com/nelomr/portfolio-dashboard/commit/cd6b9c2dfef4ab40a29db84f4576c78487ead66d))
+
 ## [1.3.6](https://github.com/nelomr/portfolio-dashboard/compare/v1.3.5...v1.3.6) (2026-05-27)
 
 ### 📝 Documentation
