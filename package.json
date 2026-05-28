@@ -6,7 +6,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nelomr/kriptofolio.git"
+    "url": "git+https://github.com/nelomr/kryptofolio.git"
   },
   "license": "MIT",
   "scripts": {
