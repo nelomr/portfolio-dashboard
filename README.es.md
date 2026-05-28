@@ -1,14 +1,14 @@
 # 📊 Kryptofolio
 
+[![Release](https://img.shields.io/github/v/release/nelomr/kryptofolio?style=flat-square&logo=github&label=version)](https://github.com/nelomr/kryptofolio/releases/latest)
+[![CI](https://img.shields.io/github/actions/workflow/status/nelomr/kryptofolio/ci.yml?branch=main&style=flat-square&logo=github-actions&label=CI)](https://github.com/nelomr/kryptofolio/actions/workflows/ci.yml)
+[![Changelog](https://img.shields.io/badge/changelog-CHANGELOG.md-blue?style=flat-square)](./CHANGELOG.md)
+
 > 🌍 **Leer en:** [English](README.md) | [Español](README.es.md)
 
 ![Kryptofolio Banner](docs/assets/banner.png)
 
 > **Kryptofolio** es un dashboard de portafolio cripto y fiscal de código abierto, construido con Vue 3 y Arquitectura Limpia (Clean Architecture). Diseñado como una plataforma de visualización pura que utiliza un sistema estricto FIFO para la presentación de datos, y técnicamente preparado para una integración fluida con Agentes de IA (Vercel AI SDK + Mastra).
-
-[![Release](https://img.shields.io/github/v/release/nelomr/portfolio-dashboard?style=flat-square&logo=github&label=version)](https://github.com/nelomr/portfolio-dashboard/releases/latest)
-[![CI](https://img.shields.io/github/actions/workflow/status/nelomr/portfolio-dashboard/ci.yml?branch=main&style=flat-square&logo=github-actions&label=CI)](https://github.com/nelomr/portfolio-dashboard/actions/workflows/ci.yml)
-[![Changelog](https://img.shields.io/badge/changelog-CHANGELOG.md-blue?style=flat-square)](./CHANGELOG.md)
 
 ## ✨ Características Principales
 
