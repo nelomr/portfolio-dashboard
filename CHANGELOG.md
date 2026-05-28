@@ -1,5 +1,24 @@
 # Changelog
 
+All notable changes to **Kriptofolio** are documented here.
+Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
+
+## [1.5.0](https://github.com/nelomr/kryptofolio/compare/v1.4.1...v1.5.0) (2026-05-28)
+
+### ✨ Features
+
+* rebrand project to Kriptofolio and enhance documentation ([2cdc620](https://github.com/nelomr/kryptofolio/commit/2cdc62021730a59507f461bcf8a4d9ffdf4a3197))
+
+### 🐛 Bug Fixes
+
+* correct github repository url to kryptofolio ([d68ea6c](https://github.com/nelomr/kryptofolio/commit/d68ea6c27b2fb8adf3061db9c5b9bc13ef446db6))
+
+### 📝 Documentation
+
+* move badges to top and update repo urls ([c93ffc7](https://github.com/nelomr/kryptofolio/commit/c93ffc775a91d03e41d06ed6e9d3de77977a2fb4))
+
+# Changelog
+
 All notable changes to **Portfolio Dashboard** are documented here.
 Format follows [Conventional Commits](https://www.conventionalcommits.org) and [Semantic Versioning](https://semver.org).
 
